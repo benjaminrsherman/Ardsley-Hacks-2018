@@ -16,7 +16,9 @@ Race race = new Race(p1, p2);
 
 mapMaker map = new mapMaker();
 
-int gameMode = 0; //0==game menue; 10==race; 20==mapMaker;
+comMiniGame miniGame = new comMiniGame();
+
+int gameMode = 0; //0==game menue; 10==race; 20==mapMaker; 30==mini games
 boolean keyAlreadyPressed;
 
 public void setup() {
@@ -43,6 +45,11 @@ public void draw() {
   } else if (gameMode == 20) {
     map.makeMap();
     map.drawMap();
+  } else if (gameMode == 30) {
+    p1.showCOM();
+    if(miniGame.update(p1.getX(), p1.getY())>-1){
+      gameMode=0;
+    }
   }
 }
 
@@ -119,6 +126,7 @@ void mainMenu(){
       fill(100, 200, 135);
       if(mousePressed){
         gameMode = 30;
+        miniGame.startGame(30);
       }
     }
     rect(width/2, 350, 350, 75, 10);
