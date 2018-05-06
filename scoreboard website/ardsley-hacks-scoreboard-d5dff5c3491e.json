@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "skillful-mason-203316",
+  "private_key_id": "d5dff5c3491e65666804d0f4f22d93f4179c790a",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDIRXYP7rWQzwEJ\nFt2YQbm1CcvfAxx54mLTCjUtjePMd8mhWZKfM6M+yqZRKhnELMz7pO0ue8QP3b+y\nOFOEKfOjq3cNPfn8VFkPu2twAvf9AnQHYMG1hktFjVbg0xptRHIVw9g8RBbgnGlb\n4DYRSJ3DdQxFcBBBdBOuq0vFejThoRoqWDC2Z48dgIOKsq1F8/O5U1zD4BRNzRrO\na9XMuLyTn/ks1XXy7jJxxqiVuaVk98Og2Mgj/xzN2md638ROYquFAYL+DbPsJree\ncmBrxhMQMeeY0Nxk6Y5/uqtH2d44f8Te8jEA1GGZLrooS8JymxzM91UonJdLInvU\no/QaWEw7AgMBAAECggEAG++B1MkcbzL2LFlnLFTcCFfHJg2ItwEQKJX/mEzMM3pG\nGDP8EtRLd3fMaVKbvintp0XN290Mb+t4+5gwdiVlRIr8vqPK2hq97ZwxaVzQphc7\nLh2eB6nQQscWEPhWyFpy0NG9Dkhaf0Gcz2G1c7BoaUT2IugggbDPtLP/jBqhg74L\nWVG+xFnRzoRsAsv1U9+zx+nD1SFqQHStVI5AruwED/i+YMR9MSx/r6TseIlW7Lfh\n/f4bKWF4ivz+HdIfhZh0uWJ82ApVaXMqcp2upzIlCxzJo8R+eNbHn3CXUSsD9Yga\n+P3Iemoqd6OEfCTbvHHSAvRddztCuHqLzednk5zjkQKBgQD55TPuJAf7z3WTF6gG\nFjsEqs0GHRMFS7fswN3CoYbBH2w2oTX2a/LCv2WpIw/vqUTQyC338meBODhmBZ+h\nfAVZ+smoF6YfCqelVamzZPNwtHYnM8YznKGHxQr2wRtfLx1Yg/oBsWbrAv1renmi\nIa+wXgp+UYhcLRJOlZx+q9WtGQKBgQDNKeth2WIs4taffBZwan3rz0vArSHaMAK9\npi1cvR8PwcS00/XOeDuf5XpRung26/bKd/VkWO3Qf6Ap8nnjfEEB2JNm5OWTcwsL\nvNFqMdeQw8y4J8jadfi5x0XNXOzlDEbAOTte/rP6zoSH3NHqNsIKQkIUczwqXCFm\ngEWTdd8acwKBgQC84A4WCkm2e6FEIfcvUpIc/vOjkUoVEJvdaBC00N1HDnb9+28L\n558+rucppYSgAfIvU33bD+5HbrTB97IlndV1ouXUFLvMboMzpcF0A/Mz1lIPY0SF\nMfes5LNaua30jWnCw02tBebh7gqYt6NDde6SgSGxQ/KqqK5TkyULYNlJ0QKBgQCp\nNoraIHY1uT31Ol4zh9GlvUqoduN11qVcEARX+e/1igaYcj3JdicPQTC62cYu3j2l\nTn1Jr4MttSW/kyru8luXjy477kxfacJRgwFhygwWbTebJ80kSarEZ1PuBleorpBo\nGIwcVIzTLqPmfr1vpIwz8+QWg9i6w1QU+3TnI4/IewKBgQCOaZlTBL58okxF5ud8\niK8es430RrMvvmPUWwEKrpPUMoQt6/GojQfcuNEOXMiGefJjxi2yA6svPjny8Y7q\nmVS3JJFNKtADhahSJ815PVfEhlw3wSmokvQM2PhGhRE0Cj5phUKlnWaLatqAb/h+\nqz6T6O7oSIcSmCeRkeMS58r9ag==\n-----END PRIVATE KEY-----\n",
+  "client_email": "ardsley-hacks-scoreboard@skillful-mason-203316.iam.gserviceaccount.com",
+  "client_id": "114009578880080666633",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/ardsley-hacks-scoreboard%40skillful-mason-203316.iam.gserviceaccount.com"
+}
