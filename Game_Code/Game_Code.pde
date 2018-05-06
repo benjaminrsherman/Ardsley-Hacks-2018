@@ -3,16 +3,22 @@ boolean doYouHaveAWiiFitBoard = false; // CHANGE THIS BASED ON YOUR SITUATION
 Player p1 = new Player(0, 'q', this, !doYouHaveAWiiFitBoard);
 Player p2 = new Player(1, 'w', this, !doYouHaveAWiiFitBoard);
 
+Race race = new Race(p1, p2);
+
 public void setup() {
-  size(400, 400);
+  size(1280, 720);
+
   p1.init();
   p2.init();
+  race.init();
 
   thread("genSteps");
 }
 
 public void draw() {
   background(255, 255, 240);
+
+  race.draw();
 
   p1.showCOM();
 
