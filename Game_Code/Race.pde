@@ -26,6 +26,14 @@ class Race {
     float car1prog = (float)p1.getSteps()/stepGoal;
     float car2prog = (float)p2.getSteps()/stepGoal;
 
+    if (car1prog >= 1 && car1prog >= car2prog) {
+      println("Car 1 wins!");
+      System.exit(0);
+    } else if (car2prog >= 1) {
+      println("Car 2 wins!");
+      System.exit(0);
+    }
+
     image(car1, (int)((width-idealWidth)*car1prog), 0);
     image(car2, (int)((width-idealWidth)*car2prog), height/2);
   }
