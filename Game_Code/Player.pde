@@ -13,8 +13,6 @@ class Player {
 
   float px, py;
 
-  int stepsTaken;
-
   boolean keyAlreadyPressed;
 
   boolean ben;
@@ -58,7 +56,7 @@ class Player {
       if (keyAlreadyPressed == false) {
         keyAlreadyPressed = true;
         if (key == stepID) {
-          stepsTaken++;
+          pStepsTaken++;
         }
       } else {
         keyAlreadyPressed = false;
@@ -73,14 +71,14 @@ class Player {
   }
 
   public void getUserInput() { // This code gets the location of the COM
-    if (ben) { 
+    px=mouseX;
+    py=mouseY;
+
+    if (ben) {
       return;
     }
     px = map(stick.getSlider("X").getValue(), -1, 1, 0, width);
     py = map(stick.getSlider("Y").getValue(), -1, 1, 0, height);
-
-    px=mouseX;
-    py=mouseY;
   }
 
   void updateSteps() { 
@@ -103,6 +101,6 @@ class Player {
     return py;
   }
   public int getSteps() { 
-    return stepsTaken;
+    return pStepsTaken;
   }
 }
