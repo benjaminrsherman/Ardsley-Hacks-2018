@@ -7,7 +7,7 @@ import java.util.Random;
 
 Random r = new Random();
 
-boolean doYouHaveAWiiFitBoard = false; // CHANGE THIS BASED ON YOUR SITUATION
+boolean doYouHaveAWiiFitBoard = true; // CHANGE THIS BASED ON YOUR SITUATION
 
 Player p1 = new Player(0, 'q', this, !doYouHaveAWiiFitBoard);
 Player p2 = new Player(1, 'w', this, !doYouHaveAWiiFitBoard);
@@ -38,7 +38,7 @@ public void draw() {
   background(255, 255, 240);
 
   if (gameMode == 0) {
-   mainMenu();
+    mainMenu();
   } else if (gameMode == 10) {
     race.draw();
     p1.showCOM();
@@ -47,7 +47,7 @@ public void draw() {
     map.drawMap();
   } else if (gameMode == 30) {
     p1.showCOM();
-    if(miniGame.update(p1.getX(), p1.getY())>-1){
+    if (miniGame.update(p1.getX(), p1.getY())>-1) {
       gameMode=0;
     }
   }
@@ -89,47 +89,68 @@ void motivate() {
 }
 
 
-void mainMenu(){
-   noStroke();
-    background(9, 64, 116);
-    textAlign(CENTER);
-    textSize(50);
-    fill(255, 255, 255);
-    text("Weclome To Ardsley Racer!", width/2, 75);
+void mainMenu() {
+  noStroke();
+  background(9, 64, 116);
+  textAlign(CENTER);
+  textSize(50);
+  fill(255, 255, 255);
+  text("Weclome To Ardsley Racer!", width/2, 75);
 
-    rectMode(CENTER);
+  rectMode(CENTER);
 
-    fill(215, 38, 56);
-    if (mouseX > (width/2)-(350/2) && mouseX < (width/2)+(350/2) && mouseY > 150-(75/2) && mouseY < 150+(75/2)) {
-      fill(255, 75, 100);
-      if(mousePressed){
-        gameMode = 10;
-      }
+  fill(215, 38, 56);
+  if (mouseX > (width/2)-(350/2) && mouseX < (width/2)+(350/2) && mouseY > 150-(75/2) && mouseY < 150+(75/2)) {
+    fill(255, 75, 100);
+    if (mousePressed) {
+      p1.startRace();
+      p2.startRace();
+      gameMode = 10;
     }
-    rect(width/2, 150, 350, 75, 10);
-    fill(255, 255, 255);
-    text("Start A Race", width/2, 167);
-    
-    fill(255, 87, 10);
-    if (mouseX > (width/2)-(350/2) && mouseX < (width/2)+(350/2) && mouseY > 250-(75/2) && mouseY < 250+(75/2)) {
-      fill(255, 135, 75);
-      if(mousePressed){
-        gameMode = 20;
-      }
-    }
-    rect(width/2, 250, 350, 75, 10);
-    fill(255, 255, 255);
-    text("Make A Map", width/2, 267);
+  }
+  rect(width/2, 150, 350, 75, 10);
+  fill(255, 255, 255);
+  text("Start A Race", width/2, 167);
 
-    fill(50, 159, 91);
-    if (mouseX > (width/2)-(350/2) && mouseX < (width/2)+(350/2) && mouseY > 350-(75/2) && mouseY < 350+(75/2)) {
-      fill(100, 200, 135);
-      if(mousePressed){
-        gameMode = 30;
-        miniGame.startGame(30);
-      }
+  fill(255, 87, 10);
+  if (mouseX > (width/2)-(350/2) && mouseX < (width/2)+(350/2) && mouseY > 250-(75/2) && mouseY < 250+(75/2)) {
+    fill(255, 135, 75);
+    if (mousePressed) {
+      gameMode = 20;
     }
-    rect(width/2, 350, 350, 75, 10);
-    fill(255, 255, 255);
-    text("Mini Games", width/2, 367);
+  }
+  rect(width/2, 250, 350, 75, 10);
+  fill(255, 255, 255);
+  text("Make A Map", width/2, 267);
+  fill(255, 87, 10);
+  if(mouseX > (width/2 + 250)-(75/2) && mouseX < (width/2 + 250)+(75/2) && mouseY > 250-(75/2) && mouseY < 250+(75/2)){
+    fill(255, 135, 75);
+    if (mousePressed) {
+      selectInput("Select a .AHMAP file to open", "loadFileFromSelection");
+      noLoop();
+    }
+  }
+  rect(width/2 + 250, 250, 75, 75, 10);
+  fill(255, 255, 255);
+  text("+", width/2 + 250, 267);
+  
+
+  fill(50, 159, 91);
+  if (mouseX > (width/2)-(350/2) && mouseX < (width/2)+(350/2) && mouseY > 350-(75/2) && mouseY < 350+(75/2)) {
+    fill(100, 200, 135);
+    if (mousePressed) {
+      gameMode = 30;
+      miniGame.startGame(30);
+    }
+  }
+  rect(width/2, 350, 350, 75, 10);
+  fill(255, 255, 255);
+  text("Mini Games", width/2, 367);
+}
+
+public void loadFileFromSelection(File selection){
+  println("got file");
+  gameMode = 20;
+  map.loadMap(selection);
+  loop();
 }

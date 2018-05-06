@@ -6,6 +6,7 @@ class mapMaker {
 
   boolean mouseAlreadyPressed = true;
 
+
   public mapMaker() {
   }
 
@@ -24,6 +25,7 @@ class mapMaker {
             } else {
               points.add(new PVector(points.get(0).x, points.get(0).y));
               mapMode = 2;
+              saveMap();
             }
           } else {
             mapMode=1;
@@ -57,10 +59,33 @@ class mapMaker {
     if (points.size()>0 && mapMode < 2) {
       if (dist(mouseX, mouseY, points.get(0).x, points.get(0).y)<10) {
         line(points.get(points.size()-1).x, points.get(points.size()-1).y, points.get(0).x, points.get(0).y);
-      }else{
+      } else {
         line(points.get(points.size()-1).x, points.get(points.size()-1).y, mouseX, mouseY);
       }
-      
     }
+  }
+
+  public void saveMap() {
+    PrintWriter saver = createWriter("map.AHMAP"); 
+    for (int i=0; i<points.size(); i++) {
+      saver.println(points.get(i).x + " " + points.get(i).y);
+    }
+
+    saver.flush();
+    saver.close();
+  }
+
+  public void loadMap(File selection) {
+
+    while (points.size() > 0) {
+      points.remove(0);
+    }
+    String[] newPoints = loadStrings(selection.getAbsolutePath());
+    for (int i=0; i<newPoints.length; i++) {
+      String[] specificPoint = split(newPoints[i], " ");
+       points.add(new PVector(int (specificPoint[0]), int (specificPoint[1])));
+    }
+   
+    mapMode = 2;
   }
 }

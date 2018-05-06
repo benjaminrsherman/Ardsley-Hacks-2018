@@ -21,7 +21,9 @@ class Player {
   float defaultX = 1280/2;//this should be where the board defaults to when nobody is on it
   float defaultY = 720/2;//this should be where the board defaults to when nobody is on it
   int stepNeeded = 0; //0==any leg can step; 1==right leg must step; -1==left leg must step
-  float stepOfsetPercentage = .02; //this is how far off from the center(defaultX) the COM of the player must be to count as a step
+  float stepOfsetPercentage = .15; //this is how far off from the center(defaultX) the COM of the player must be to count as a step
+
+  boolean raceStarted = false;
 
 
   public Player(int num, char step, PApplet  main) {
@@ -60,7 +62,7 @@ class Player {
   public void emulateSteps() { // Code that emulates steps.  Press stepID to add a step.
     if (keyPressed) {
       if (keyAlreadyPressed == false) {
-       keyAlreadyPressed = true;
+        keyAlreadyPressed = true;
         if (key == stepID) {
           pStepsTaken++;
         }
@@ -96,15 +98,17 @@ class Player {
   }
 
   void updateSteps() { 
-    if (px > defaultX+(width*stepOfsetPercentage) && stepNeeded>=0) {
-      stepNeeded = -1;
-      pStepsTaken++;
-      println("right step, total steps taken=" + pStepsTaken);
-    }
-    if (px < defaultX-(width*stepOfsetPercentage) && stepNeeded<=0) {
-      stepNeeded = 1;
-      pStepsTaken++;
-      println("left step, total steps taken=" + pStepsTaken);
+    if (raceStarted == true) {
+      if (px > defaultX+(width*stepOfsetPercentage) && stepNeeded>=0) {
+        stepNeeded = -1;
+        pStepsTaken++;
+        println("right step, total steps taken=" + pStepsTaken);
+      }
+      if (px < defaultX-(width*stepOfsetPercentage) && stepNeeded<=0) {
+        stepNeeded = 1;
+        pStepsTaken++;
+        println("left step, total steps taken=" + pStepsTaken);
+      }
     }
   } 
 
@@ -116,5 +120,9 @@ class Player {
   }
   public int getSteps() { 
     return pStepsTaken;
+  }
+
+  void startRace() {
+    raceStarted = true;
   }
 }

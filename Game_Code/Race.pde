@@ -8,6 +8,8 @@ class Race {
 
   PImage car1;
   PImage car2;
+  
+ 
 
   public Race(Player first, Player second) {
     p1 = first;
