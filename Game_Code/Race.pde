@@ -1,6 +1,6 @@
 class Race {
   
-  final int idealHeight = 240;
+  final int idealWidth = 240;
 
   Player p1;
   Player p2;
@@ -28,6 +28,6 @@ class Race {
 
   void rescaleImage(PImage img) {
     float ratio = img.width/img.height;
-    img.resize((int)(ratio*idealHeight), idealHeight);
+    img.resize(idealWidth, (int)(idealWidth/ratio));
   }
 }
