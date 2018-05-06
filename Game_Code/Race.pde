@@ -10,8 +10,8 @@ class Race {
 
   public Race(Player first, Player second) {
     p1 = first;
-  p2 = second;
-}
+    p2 = second;
+  }
 
   public void init() {
     car1 = loadImage("car1.png");
