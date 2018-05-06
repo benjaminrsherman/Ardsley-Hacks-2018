@@ -5,6 +5,8 @@ import net.java.games.input.*;
 class Player {
   int id;
   char stepID;
+
+  PApplet mainThread;
   
   ControlIO control;
   ControlDevice stick;
@@ -15,18 +17,19 @@ class Player {
 
   boolean keyAlreadyPressed;
 
-  public Player(int num, char step) {
+  public Player(int num, char step, PApplet  main) {
     id = num;
     stepID = step;
+    mainThread = main;
   }
 
   public void init() {
     // Initialise the ControlIO
-    control = ControlIO.getInstance(this);
+    control = ControlIO.getInstance(mainThread);
     // Find a device that matches the configuration file
-    stick = control.getMatchedDevice("inp" + num);
+    stick = control.getMatchedDevice("inp" + id);
     if (stick == null) {
-      println("No device with name inp" + num + "!");
+      println("No device with name inp" + id + "!");
       System.exit(-1); // ABORT MISSION
     }
   }
@@ -52,7 +55,7 @@ class Player {
 
   public void getUserInput() { // This code gets the location of the COM
     px = map(stick.getSlider("X").getValue(), -1, 1, 0, width);
-    py = map(stick.getSlider("Y").getValue(), -1, 1, 0, heigth);
+    py = map(stick.getSlider("Y").getValue(), -1, 1, 0, height);
   }
 
   public float getX() { return px; }

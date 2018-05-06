@@ -1,5 +1,5 @@
-Player p1 = new Player(0, 'q');
-Player p2 = new Player(1, 'w');
+Player p1 = new Player(0, 'q', this);
+Player p2 = new Player(1, 'w', this);
 
 public void setup() {
   size(400, 400);
