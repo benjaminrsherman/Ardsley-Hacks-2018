@@ -20,8 +20,8 @@ class Player {
   boolean ben;
 
   int pStepsTaken = 0;//total number of steps taken so far
-  float defaultX = width/2;//this should be where the board defaults to when nobody is on it
-  float defaultY = height/2;//this should be where the board defaults to when nobody is on it
+  float defaultX = 200;//this should be where the board defaults to when nobody is on it
+  float defaultY = 200;//this should be where the board defaults to when nobody is on it
   int stepNeeded = 0; //0==any leg can step; 1==right leg must step; -1==left leg must step
   float stepOfsetPercentage = .05; //this is how far off from the center(defaultX) the COM of the player must be to count as a step
 
@@ -84,7 +84,6 @@ class Player {
   }
 
   void updateSteps() { 
-    println(px);
     if (px > defaultX+(width*stepOfsetPercentage) && stepNeeded>=0) {
       stepNeeded = -1;
       pStepsTaken++;
