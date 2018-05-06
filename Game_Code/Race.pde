@@ -1,6 +1,7 @@
 class Race {
   
   final int idealWidth = 240;
+  final int stepGoal = 50; // Steps needed to win the game
 
   Player p1;
   Player p2;
@@ -22,8 +23,11 @@ class Race {
   }
 
   public void draw() {
-    image(car1, 0, 0);
-    image(car2, 0, height/2);
+    float car1prog = (float)p1.getSteps()/stepGoal;
+    float car2prog = (float)p2.getSteps()/stepGoal;
+
+    image(car1, (int)((width-idealWidth)*car1prog), 0);
+    image(car2, (int)((width-idealWidth)*car2prog), height/2);
   }
 
   void rescaleImage(PImage img) {
