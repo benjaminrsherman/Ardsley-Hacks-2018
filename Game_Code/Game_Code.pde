@@ -1,3 +1,9 @@
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import java.util.Random;
+
+Random r = new Random();
+
 boolean doYouHaveAWiiFitBoard = false; // CHANGE THIS BASED ON YOUR SITUATION
 
 Player p1 = new Player(0, 'q', this, !doYouHaveAWiiFitBoard);
@@ -13,6 +19,8 @@ public void setup() {
   race.init();
 
   thread("genSteps");
+
+  motivate();
 }
 
 public void draw() {
@@ -21,8 +29,6 @@ public void draw() {
   race.draw();
 
   p1.showCOM();
-
-  println(p1.getSteps() + " " + p2.getSteps());
 }
 
 void genSteps() {
@@ -40,4 +46,21 @@ void genSteps() {
       System.exit(-1); // No more thread = no more input
     }
   }
+}
+
+void motivate() {
+  println("Initializing motivation...");
+  String songLoc = "Game_Code/assets/";
+  switch (r.nextInt(2)) {
+    case 0:
+      songLoc = songLoc + "mortal_kombat.wav";
+      break;
+    case 1:
+      songLoc = songLoc + "hampster.wav";
+      break;
+  }
+
+  Media song = new Media(new File(songLoc).toURI().toString());
+  MediaPlayer mediaPlayer = new MediaPlayer(song);
+  mediaPlayer.play();
 }
