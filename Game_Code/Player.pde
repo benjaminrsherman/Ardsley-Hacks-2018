@@ -17,13 +17,23 @@ class Player {
 
   boolean keyAlreadyPressed;
 
+  boolean ben;
+
   public Player(int num, char step, PApplet  main) {
     id = num;
     stepID = step;
     mainThread = main;
   }
+  public Player(int num, char step, PApplet main, boolean runningOnBensComputerBecauseHesAPlebWithoutAWiiFitBoard) { // Descriptive variable names amirite
+    id = num;
+    stepID = step;
+    mainThread = main;
+    ben = runningOnBensComputerBecauseHesAPlebWithoutAWiiFitBoard;
+  }
 
   public void init() {
+    if (ben) { return; }
+
     // Initialise the ControlIO
     control = ControlIO.getInstance(mainThread);
     // Find a device that matches the configuration file
@@ -54,6 +64,7 @@ class Player {
   }
 
   public void getUserInput() { // This code gets the location of the COM
+    if (ben) { return; }
     px = map(stick.getSlider("X").getValue(), -1, 1, 0, width);
     py = map(stick.getSlider("Y").getValue(), -1, 1, 0, height);
   }

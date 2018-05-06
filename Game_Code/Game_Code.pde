@@ -1,5 +1,7 @@
-Player p1 = new Player(0, 'q', this);
-Player p2 = new Player(1, 'w', this);
+boolean doYouHaveAWiiFitBoard = false; // CHANGE THIS BASED ON YOUR SITUATION
+
+Player p1 = new Player(0, 'q', this, !doYouHaveAWiiFitBoard);
+Player p2 = new Player(1, 'w', this, !doYouHaveAWiiFitBoard);
 
 public void setup() {
   size(400, 400);
