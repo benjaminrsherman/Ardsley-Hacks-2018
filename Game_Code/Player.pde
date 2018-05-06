@@ -7,10 +7,10 @@ class Player {
   char stepID;
 
   PApplet mainThread;
-  
+
   ControlIO control;
   ControlDevice stick;
-  
+
   float px, py;
 
   int stepsTaken;
@@ -18,6 +18,13 @@ class Player {
   boolean keyAlreadyPressed;
 
   boolean ben;
+
+  int pStepsTaken = 0;//total number of steps taken so far
+  float defaultX = width/2;//this should be where the board defaults to when nobody is on it
+  float defaultY = height/2;//this should be where the board defaults to when nobody is on it
+  int stepNeeded = 0; //0==any leg can step; 1==right leg must step; -1==left leg must step
+  float stepOfsetPercentage = .05; //this is how far off from the center(defaultX) the COM of the player must be to count as a step
+
 
   public Player(int num, char step, PApplet  main) {
     id = num;
@@ -32,7 +39,9 @@ class Player {
   }
 
   public void init() {
-    if (ben) { return; }
+    if (ben) { 
+      return;
+    }
 
     // Initialise the ControlIO
     control = ControlIO.getInstance(mainThread);
@@ -64,12 +73,37 @@ class Player {
   }
 
   public void getUserInput() { // This code gets the location of the COM
-    if (ben) { return; }
+    if (ben) { 
+      return;
+    }
     px = map(stick.getSlider("X").getValue(), -1, 1, 0, width);
     py = map(stick.getSlider("Y").getValue(), -1, 1, 0, height);
+
+    px=mouseX;
+    py=mouseY;
   }
 
-  public float getX() { return px; }
-  public float getY() { return py; }
-  public int getSteps() { return stepsTaken; }
+  void updateSteps() { 
+    println(px);
+    if (px > defaultX+(width*stepOfsetPercentage) && stepNeeded>=0) {
+      stepNeeded = -1;
+      pStepsTaken++;
+      println("right step, total steps taken=" + pStepsTaken);
+    }
+    if (px < defaultX-(width*stepOfsetPercentage) && stepNeeded<=0) {
+      stepNeeded = 1;
+      pStepsTaken++;
+      println("left step, total steps taken=" + pStepsTaken);
+    }
+  } 
+
+  public float getX() { 
+    return px;
+  }
+  public float getY() { 
+    return py;
+  }
+  public int getSteps() { 
+    return stepsTaken;
+  }
 }

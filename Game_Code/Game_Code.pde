@@ -1,4 +1,4 @@
-boolean doYouHaveAWiiFitBoard = false; // CHANGE THIS BASED ON YOUR SITUATION
+boolean doYouHaveAWiiFitBoard = true; // CHANGE THIS BASED ON YOUR SITUATION
 
 Player p1 = new Player(0, 'q', this, !doYouHaveAWiiFitBoard);
 Player p2 = new Player(1, 'w', this, !doYouHaveAWiiFitBoard);
@@ -15,6 +15,10 @@ public void draw() {
   background(255, 255, 240);
   p1.emulateSteps();
   p2.emulateSteps();
+  p1.updateSteps();
 
-  println(p1.getSteps() + " " + p2.getSteps());
+  p1.showCOM();
+
+
+ // println(p1.getSteps() + " " + p2.getSteps());
 }
