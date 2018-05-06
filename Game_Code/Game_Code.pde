@@ -1,15 +1,13 @@
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.util.Random;
-import processing.sound.*;
 
 
 
-SoundFile file;
 
 Random r = new Random();
 
-boolean doYouHaveAWiiFitBoard = true; // CHANGE THIS BASED ON YOUR SITUATION
+boolean doYouHaveAWiiFitBoard = false; // CHANGE THIS BASED ON YOUR SITUATION
 
 Player p1 = new Player(0, 'q', this, !doYouHaveAWiiFitBoard);
 Player p2 = new Player(1, 'w', this, !doYouHaveAWiiFitBoard);
@@ -30,10 +28,8 @@ public void setup() {
 
   thread("genSteps");
 
-  file = new SoundFile(this, "C:/Users/elihs/OneDrive/Github/Ardsley-Hacks-2018/Game_Code/assets/mortal_kombat.wav");
-  //file.play();
 
-  //motivate();
+  motivate();
 }
 
 public void draw() {
