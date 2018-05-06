@@ -39,5 +39,6 @@ void genSteps() {
       println("rip");
       System.exit(-1); // No more thread = no more input
     }
+     
   }
 }
