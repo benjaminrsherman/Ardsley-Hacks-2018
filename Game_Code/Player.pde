@@ -85,12 +85,12 @@ class Player {
     if (px > defaultX+(width*stepOfsetPercentage) && stepNeeded>=0) {
       stepNeeded = -1;
       pStepsTaken++;
-      println("right step, total steps taken=" + pStepsTaken);
+     // println("right step, total steps taken=" + pStepsTaken);
     }
     if (px < defaultX-(width*stepOfsetPercentage) && stepNeeded<=0) {
       stepNeeded = 1;
       pStepsTaken++;
-      println("left step, total steps taken=" + pStepsTaken);
+     // println("left step, total steps taken=" + pStepsTaken);
     }
   } 
 
