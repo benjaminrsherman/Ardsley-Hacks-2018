@@ -18,10 +18,10 @@ class Player {
   boolean ben;
 
   int pStepsTaken = 0;//total number of steps taken so far
-  float defaultX = 200;//this should be where the board defaults to when nobody is on it
-  float defaultY = 200;//this should be where the board defaults to when nobody is on it
+  float defaultX = 1280/2;//this should be where the board defaults to when nobody is on it
+  float defaultY = 720/2;//this should be where the board defaults to when nobody is on it
   int stepNeeded = 0; //0==any leg can step; 1==right leg must step; -1==left leg must step
-  float stepOfsetPercentage = .05; //this is how far off from the center(defaultX) the COM of the player must be to count as a step
+  float stepOfsetPercentage = .02; //this is how far off from the center(defaultX) the COM of the player must be to count as a step
 
 
   public Player(int num, char step, PApplet  main) {
@@ -49,12 +49,18 @@ class Player {
       println("No device with name inp" + id + "!");
       System.exit(-1); // ABORT MISSION
     }
+
+
+    defaultX = map(stick.getSlider("X").getValue(), -1, 1, 0, width);
+    defaultY = map(stick.getSlider("Y").getValue(), -1, 1, 0, height);
+    println("defaultX " + defaultX);
+    println("defaultY " + defaultY);
   }
 
   public void emulateSteps() { // Code that emulates steps.  Press stepID to add a step.
     if (keyPressed) {
       if (keyAlreadyPressed == false) {
-        keyAlreadyPressed = true;
+       keyAlreadyPressed = true;
         if (key == stepID) {
           pStepsTaken++;
         }
@@ -68,6 +74,12 @@ class Player {
     noStroke();
     fill(255, 0, 0);
     ellipse(px, py, 20, 20);
+
+    strokeWeight(10);
+    stroke(0);
+    line(defaultX+(width*stepOfsetPercentage), 0, defaultX+(width*stepOfsetPercentage), height);
+    line(defaultX-(width*stepOfsetPercentage), 0, defaultX-(width*stepOfsetPercentage), height);
+    //line(defaultX,0,defaultX,height);
   }
 
   public void getUserInput() { // This code gets the location of the COM
@@ -79,18 +91,20 @@ class Player {
     }
     px = map(stick.getSlider("X").getValue(), -1, 1, 0, width);
     py = map(stick.getSlider("Y").getValue(), -1, 1, 0, height);
+
+    //println(px);
   }
 
   void updateSteps() { 
     if (px > defaultX+(width*stepOfsetPercentage) && stepNeeded>=0) {
       stepNeeded = -1;
       pStepsTaken++;
-     // println("right step, total steps taken=" + pStepsTaken);
+      println("right step, total steps taken=" + pStepsTaken);
     }
     if (px < defaultX-(width*stepOfsetPercentage) && stepNeeded<=0) {
       stepNeeded = 1;
       pStepsTaken++;
-     // println("left step, total steps taken=" + pStepsTaken);
+      println("left step, total steps taken=" + pStepsTaken);
     }
   } 
 
