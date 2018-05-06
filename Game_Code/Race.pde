@@ -15,7 +15,7 @@ class Race {
 
   public void init() {
     car1 = loadImage("car1.png");
-    car2 = loadImage("car2.png");
+    car2 = loadImage("car1.png");
 
     rescaleImage(car1);
     rescaleImage(car2);
