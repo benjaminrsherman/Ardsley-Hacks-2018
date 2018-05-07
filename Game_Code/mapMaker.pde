@@ -13,6 +13,7 @@ class mapMaker {
 
   public void makeMap() {
     if (mousePressed) {
+      //mouseAlreadyPressed = false;
       if (mouseAlreadyPressed == false) {
 
         if (mapMode == -1) {
@@ -34,7 +35,7 @@ class mapMaker {
         }
 
 
-        mouseAlreadyPressed = true;
+        //mouseAlreadyPressed = true;//remove "//" to allow free drawing
       }
     } else {
       mouseAlreadyPressed = false;
