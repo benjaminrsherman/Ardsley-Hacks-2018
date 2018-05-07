@@ -76,8 +76,6 @@ class mapMaker {
   }
 
   public void loadMap(File selection) {
-    
-
     while (points.size() > 0) {
       points.remove(0);
     }

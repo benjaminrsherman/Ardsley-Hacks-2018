@@ -26,6 +26,11 @@ class Player {
   boolean raceStarted = false;
 
 
+  car myCar;
+
+
+
+
   public Player(int num, char step, PApplet  main) {
     id = num;
     stepID = step;
@@ -102,12 +107,14 @@ class Player {
       if (px > defaultX+(width*stepOfsetPercentage) && stepNeeded>=0) {
         stepNeeded = -1;
         pStepsTaken++;
-        println("right step, total steps taken=" + pStepsTaken);
+        myCar.moveStep();
+       // println("right step, total steps taken=" + pStepsTaken);
       }
       if (px < defaultX-(width*stepOfsetPercentage) && stepNeeded<=0) {
         stepNeeded = 1;
         pStepsTaken++;
-        println("left step, total steps taken=" + pStepsTaken);
+        myCar.moveStep();
+       // println("left step, total steps taken=" + pStepsTaken);
       }
     }
   } 
@@ -124,5 +131,17 @@ class Player {
 
   void startRace() {
     raceStarted = true;
+  }
+
+
+
+  void startTopDownRace(String carColor, File selection) {
+    myCar = new car(carColor);
+    myCar.loadMap(selection);
+  }
+
+  public void race() {
+    myCar.drawMap();
+    myCar.moveCar();
   }
 }

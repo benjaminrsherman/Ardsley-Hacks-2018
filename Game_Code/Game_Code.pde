@@ -45,6 +45,9 @@ public void draw() {
   } else if (gameMode == 20) {
     map.makeMap();
     map.drawMap();
+  } else if (gameMode == 25) {
+    p1.race();
+    p1.race();
   } else if (gameMode == 30) {
     p1.showCOM();
     if (miniGame.update(p1.getX(), p1.getY())>-1) {
@@ -151,8 +154,12 @@ void mainMenu() {
 public void loadFileFromSelection(File selection) {
   if(selection == null){
   }else if (selection.getAbsolutePath().indexOf(".AHMAP")>=0) {
-    gameMode = 20;
-    map.loadMap(selection);
+    gameMode = 25;
+    //map.loadMap(selection);
+    p1.startTopDownRace("red", selection);
+    p2.startTopDownRace("dark blue", selection);
+    p1.startRace();
+    p2.startRace();
   }
   mousePressed=false;
   loop();
