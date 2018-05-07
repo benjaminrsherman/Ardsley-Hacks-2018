@@ -78,10 +78,8 @@ class car {
 
 
   public void drawMap() {
-    strokeWeight(10);
-    stroke(0);
     for (int i=1; i<points.size(); i++) {
-      strokeWeight(10);
+      strokeWeight(30);
       stroke(0);
       line(points.get(i).x, points.get(i).y, points.get(i-1).x, points.get(i-1).y);
     }
@@ -93,7 +91,9 @@ class car {
     }
   }
 
-  public void moveStep() {
-    distToMove+=25;
+  public void moveStep(float ammount) {
+    //int stepAmmout = 25;
+    distToMove += 75*ammount;
+    //distToMove+=25*ammount;
   }
 }

@@ -28,7 +28,7 @@ class Player {
 
   car myCar;
 
-
+  float pStepsTakenf = 0;//total number of steps taken so far
 
 
   public Player(int num, char step, PApplet  main) {
@@ -104,18 +104,51 @@ class Player {
 
   void updateSteps() { 
     if (raceStarted == true) {
-      if (px > defaultX+(width*stepOfsetPercentage) && stepNeeded>=0) {
-        stepNeeded = -1;
-        pStepsTaken++;
-        myCar.moveStep();
-       // println("right step, total steps taken=" + pStepsTaken);
+      //if (px > defaultX+(width*stepOfsetPercentage) && stepNeeded>=0) {
+      //  stepNeeded = -1;
+      //  pStepsTaken++;
+      //  myCar.moveStep();
+      //  // println("right step, total steps taken=" + pStepsTaken);
+      //}
+      //if (px < defaultX-(width*stepOfsetPercentage) && stepNeeded<=0) {
+      //  stepNeeded = 1;
+      //  pStepsTaken++;
+      //  myCar.moveStep();
+      //  // println("left step, total steps taken=" + pStepsTaken);
+      //}
+
+
+
+
+
+      if (stepNeeded>=0) {//right
+        float tempStepTaken = abs(defaultX-px)/( width *stepOfsetPercentage);
+        if (tempStepTaken >=1 && defaultX-px < 0) {
+          tempStepTaken = 1;
+          myCar.moveStep(floor(pStepsTakenf)+tempStepTaken-pStepsTakenf);
+          pStepsTakenf=floor(pStepsTakenf)+1;
+          stepNeeded = -1;
+        } else if (floor(pStepsTakenf)+tempStepTaken > pStepsTakenf && defaultX-px < 0) {
+          myCar.moveStep(floor(pStepsTakenf)+tempStepTaken-pStepsTakenf);
+          pStepsTakenf=floor(pStepsTakenf)+tempStepTaken;
+        }
+        println("right tempStepTaken: " + tempStepTaken);
+      } else if (stepNeeded<=0) {//right
+        float tempStepTaken = abs(defaultX-px)/( width *stepOfsetPercentage);
+        if (tempStepTaken >=1 && defaultX-px > 0) {
+          tempStepTaken = 1;
+          myCar.moveStep(floor(pStepsTakenf)+tempStepTaken-pStepsTakenf);
+          pStepsTakenf=floor(pStepsTakenf)+1;
+          stepNeeded = 1;
+        } else if (floor(pStepsTakenf)+tempStepTaken > pStepsTakenf && defaultX-px > 0) {
+          myCar.moveStep(floor(pStepsTakenf)+tempStepTaken-pStepsTakenf);
+          pStepsTakenf=floor(pStepsTakenf)+tempStepTaken;
+        }
+        println("left tempStepTaken: " + tempStepTaken);
       }
-      if (px < defaultX-(width*stepOfsetPercentage) && stepNeeded<=0) {
-        stepNeeded = 1;
-        pStepsTaken++;
-        myCar.moveStep();
-       // println("left step, total steps taken=" + pStepsTaken);
-      }
+
+
+      println("steps taken: " + pStepsTakenf);
     }
   } 
 
