@@ -123,7 +123,7 @@ void mainMenu() {
   fill(255, 255, 255);
   text("Make A Map", width/2, 267);
   fill(255, 87, 10);
-  if(mouseX > (width/2 + 250)-(75/2) && mouseX < (width/2 + 250)+(75/2) && mouseY > 250-(75/2) && mouseY < 250+(75/2)){
+  if (mouseX > (width/2 + 250)-(75/2) && mouseX < (width/2 + 250)+(75/2) && mouseY > 250-(75/2) && mouseY < 250+(75/2)) {
     fill(255, 135, 75);
     if (mousePressed) {
       selectInput("Select a .AHMAP file to open", "loadFileFromSelection");
@@ -133,7 +133,7 @@ void mainMenu() {
   rect(width/2 + 250, 250, 75, 75, 10);
   fill(255, 255, 255);
   text("+", width/2 + 250, 267);
-  
+
 
   fill(50, 159, 91);
   if (mouseX > (width/2)-(350/2) && mouseX < (width/2)+(350/2) && mouseY > 350-(75/2) && mouseY < 350+(75/2)) {
@@ -148,9 +148,10 @@ void mainMenu() {
   text("Mini Games", width/2, 367);
 }
 
-public void loadFileFromSelection(File selection){
-  println("got file");
-  gameMode = 20;
-  map.loadMap(selection);
+public void loadFileFromSelection(File selection) {
+  if (selection.getAbsolutePath().indexOf(".AHMAP")>=0) {
+    gameMode = 20;
+    map.loadMap(selection);
+  }
   loop();
 }
