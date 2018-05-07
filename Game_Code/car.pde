@@ -32,28 +32,50 @@ class car {
   }
 
   private void moveCar() {
+    PVector curPointPlus1;
+    PVector curPoint;
+
+    if (currentPoint<points.size()) {
+      curPoint = points.get(currentPoint);
+    } else {
+      curPoint = points.get(0);
+    }
+
+
     if (currentPoint+1<points.size()) {
-      float distBetweenPoints = abs(dist(points.get(currentPoint).x, points.get(currentPoint).y, points.get(currentPoint+1).x, points.get(currentPoint+1).y));
-      if (distBetweenPoints < distToMove) {
+      curPointPlus1 = points.get(currentPoint+1);
+    } else {
+      curPointPlus1 = points.get(0);
+    }
+
+
+
+    float distBetweenPoints = abs(dist(curPoint.x, curPoint.y, curPointPlus1.x, curPointPlus1.y));
+    if (distBetweenPoints < distToMove) {
+      distToMove-=distBetweenPoints;
+      if (currentPoint + 1<points.size()) {
         currentPoint++;
-        distToMove-=distBetweenPoints;
-        moveCar();
       } else {
-        PVector trackSection = new PVector(points.get(currentPoint + 1).x - points.get(currentPoint).x, points.get(currentPoint + 1).y - points.get(currentPoint).y);
-        trackSection.setMag(abs(distToMove));
-        imageMode(CENTER);
-
-        pushMatrix();
-        translate(points.get(currentPoint).x+trackSection.x, points.get(currentPoint).y+trackSection.y);
-        rotate(trackSection.heading());
-        image(img, 0, 0);
-        popMatrix();
-
-        // ellipse(points.get(currentPoint).x+trackSection.x, points.get(currentPoint).y+trackSection.y, 15, 15);
-        // println(trackSection.mag());
+        currentPoint=0;
       }
+
+      moveCar();
+    } else {
+      PVector trackSection = new PVector(points.get(currentPoint + 1).x - curPoint.x, points.get(currentPoint + 1).y - curPoint.y);
+      trackSection.setMag(abs(distToMove));
+      imageMode(CENTER);
+
+      pushMatrix();
+      translate(curPoint.x+trackSection.x, curPoint.y+trackSection.y);
+      rotate(trackSection.heading());
+      image(img, 0, 0);
+      popMatrix();
+
+      // ellipse(curPoint.x+trackSection.x, curPoint.y+trackSection.y, 15, 15);
+      // println(trackSection.mag());
     }
   }
+
 
   public void drawMap() {
     strokeWeight(10);
