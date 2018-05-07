@@ -8,7 +8,7 @@ class car {
   float y =-99;
 
   PImage img;
-  final int idealSize = 25;
+  final int idealSize = 50;
 
   public car(String carColor) {
     img = loadImage("assets/top down cars/top down " + carColor + " car.png");
@@ -32,21 +32,24 @@ class car {
   }
 
   private void moveCar() {
-    //println("distToMove" + distToMove);
-    //println("distance " + abs(dist(points.get(currentPoint).x, points.get(currentPoint).y, points.get(currentPoint+1).x, points.get(currentPoint+1).y)));
-
     if (currentPoint+1<points.size()) {
-     float distBetweenPoints = abs(dist(points.get(currentPoint).x, points.get(currentPoint).y, points.get(currentPoint+1).x, points.get(currentPoint+1).y));
+      float distBetweenPoints = abs(dist(points.get(currentPoint).x, points.get(currentPoint).y, points.get(currentPoint+1).x, points.get(currentPoint+1).y));
       if (distBetweenPoints < distToMove) {
         currentPoint++;
         distToMove-=distBetweenPoints;
         moveCar();
-        } else {
+      } else {
         PVector trackSection = new PVector(points.get(currentPoint + 1).x - points.get(currentPoint).x, points.get(currentPoint + 1).y - points.get(currentPoint).y);
         trackSection.setMag(abs(distToMove));
         imageMode(CENTER);
-        image(img, points.get(currentPoint).x+trackSection.x, points.get(currentPoint).y+trackSection.y);
-       // ellipse(points.get(currentPoint).x+trackSection.x, points.get(currentPoint).y+trackSection.y, 15, 15);
+
+        pushMatrix();
+        translate(points.get(currentPoint).x+trackSection.x, points.get(currentPoint).y+trackSection.y);
+        rotate(trackSection.heading());
+        image(img, 0, 0);
+        popMatrix();
+
+        // ellipse(points.get(currentPoint).x+trackSection.x, points.get(currentPoint).y+trackSection.y, 15, 15);
         // println(trackSection.mag());
       }
     }
