@@ -7,7 +7,7 @@ import java.util.Random;
 
 Random r = new Random();
 
-boolean doYouHaveAWiiFitBoard = true; // CHANGE THIS BASED ON YOUR SITUATION
+boolean doYouHaveAWiiFitBoard = false; // CHANGE THIS BASED ON YOUR SITUATION
 
 Player p1 = new Player(0, 'q', this, !doYouHaveAWiiFitBoard);
 Player p2 = new Player(1, 'w', this, !doYouHaveAWiiFitBoard);
@@ -149,9 +149,11 @@ void mainMenu() {
 }
 
 public void loadFileFromSelection(File selection) {
-  if (selection.getAbsolutePath().indexOf(".AHMAP")>=0) {
+  if(selection == null){
+  }else if (selection.getAbsolutePath().indexOf(".AHMAP")>=0) {
     gameMode = 20;
     map.loadMap(selection);
   }
+  mousePressed=false;
   loop();
 }
