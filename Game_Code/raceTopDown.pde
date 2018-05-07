@@ -1,5 +1,5 @@
 class raceTopDown {
-
+/*
   Player p1;
   Player p2;
 
@@ -46,5 +46,5 @@ class raceTopDown {
   void rescaleImage(PImage img) {
     float ratio = img.width/img.height;
     img.resize(idealWidth, (int)(idealWidth/ratio));
-  }
+  }*/
 }
