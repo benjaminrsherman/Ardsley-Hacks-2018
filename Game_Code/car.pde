@@ -81,6 +81,14 @@ class car {
     strokeWeight(10);
     stroke(0);
     for (int i=1; i<points.size(); i++) {
+      strokeWeight(10);
+      stroke(0);
+      line(points.get(i).x, points.get(i).y, points.get(i-1).x, points.get(i-1).y);
+    }
+    for (int i=1; i<points.size(); i++) {
+      //center of road
+      strokeWeight(3);
+      stroke(239, 183, 0);
       line(points.get(i).x, points.get(i).y, points.get(i-1).x, points.get(i-1).y);
     }
   }

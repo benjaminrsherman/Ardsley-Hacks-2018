@@ -46,6 +46,7 @@ public void draw() {
     map.makeMap();
     map.drawMap();
   } else if (gameMode == 25) {
+    background(00, 165, 80);
     p1.race();
     p1.race();
   } else if (gameMode == 30) {
