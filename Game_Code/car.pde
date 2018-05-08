@@ -4,8 +4,10 @@ class car {
   float distToMove = 0;
   int currentPoint = 0;
 
-  float x =-99;
-  float y =-99;
+  // float x =-99;
+  //float y =-99;
+
+  int lapNumber = 0;
 
   PImage img;
   final int idealSize = 50;
@@ -13,6 +15,7 @@ class car {
   public car(String carColor) {
     img = loadImage("assets/top down cars/top down " + carColor + " car.png");
     rescaleImage(img);
+    lapNumber = 0;
   }
 
   void rescaleImage(PImage img) {
@@ -77,7 +80,7 @@ class car {
   }
 
 
-  public void drawMap() {
+  public void drawMap(car secondCar) {
     for (int i=1; i<points.size(); i++) {
       strokeWeight(30);
       stroke(0);
@@ -92,8 +95,16 @@ class car {
   }
 
   public void moveStep(float ammount) {
-    //int stepAmmout = 25;
     distToMove += 75*ammount;
-    //distToMove+=25*ammount;
+  }
+
+  public int getLapNumber() {
+    return lapNumber;
+  }
+
+  public void restart() {
+    distToMove = 0;
+    currentPoint = 0;
+    lapNumber = 0;
   }
 }

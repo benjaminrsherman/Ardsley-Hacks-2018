@@ -15,26 +15,25 @@ class mapMaker {
     if (mousePressed) {
       //mouseAlreadyPressed = false;
       if (mouseAlreadyPressed == false) {
-
-        if (mapMode == -1) {
-          points.add(new PVector(mouseX, mouseY));
-          mapMode = 0;
-        } else if (mapMode < 2) {
-          if (dist(mouseX, mouseY, points.get(0).x, points.get(0).y)<10) {
-            if (mapMode==0) {
-              points.add(new PVector(mouseX, mouseY));
-            } else {
-              points.add(new PVector(points.get(0).x, points.get(0).y));
-              mapMode = 2;
-              saveMap();
-            }
-          } else {
-            mapMode=1;
+        if (mouseX<width-76) {
+          if (mapMode == -1) {
             points.add(new PVector(mouseX, mouseY));
+            mapMode = 0;
+          } else if (mapMode < 2) {
+            if (dist(mouseX, mouseY, points.get(0).x, points.get(0).y)<75/2) {
+              if (mapMode==0) {
+                points.add(new PVector(mouseX, mouseY));
+              } else {
+                points.add(new PVector(points.get(0).x, points.get(0).y));
+                mapMode = 2;
+                //saveMap();
+              }
+            } else {
+              mapMode=1;
+              points.add(new PVector(mouseX, mouseY));
+            }
           }
         }
-
-
         //mouseAlreadyPressed = true;//remove "//" to allow free drawing
       }
     } else {
@@ -44,8 +43,8 @@ class mapMaker {
     if (mapMode >-1 && mapMode<2) {
       fill(255, 0, 0);
       ellipseMode(CENTER);
-      strokeWeight(1);
-      ellipse(points.get(0).x, points.get(0).y, 20, 20);
+      strokeWeight(3);
+      ellipse(points.get(0).x, points.get(0).y, 75, 75);
     }
   }
 
@@ -54,38 +53,69 @@ class mapMaker {
     strokeWeight(10);
     stroke(0);
     for (int i=1; i<points.size(); i++) {
+      strokeWeight(30);
+      stroke(0);
+      line(points.get(i).x, points.get(i).y, points.get(i-1).x, points.get(i-1).y);
+    }
+    for (int i=1; i<points.size(); i++) {
+      strokeWeight(3);
+      stroke(239, 183, 0);
       line(points.get(i).x, points.get(i).y, points.get(i-1).x, points.get(i-1).y);
     }
 
     if (points.size()>0 && mapMode < 2) {
-      if (dist(mouseX, mouseY, points.get(0).x, points.get(0).y)<10) {
+      if (dist(mouseX, mouseY, points.get(0).x, points.get(0).y)<75/2) {
+        strokeWeight(30);
+        stroke(0);
+        line(points.get(points.size()-1).x, points.get(points.size()-1).y, points.get(0).x, points.get(0).y);
+        strokeWeight(3);
+        stroke(239, 183, 0);
         line(points.get(points.size()-1).x, points.get(points.size()-1).y, points.get(0).x, points.get(0).y);
       } else {
+        strokeWeight(30);
+        stroke(0);
+        line(points.get(points.size()-1).x, points.get(points.size()-1).y, mouseX, mouseY);
+        strokeWeight(3);
+        stroke(239, 183, 0);
         line(points.get(points.size()-1).x, points.get(points.size()-1).y, mouseX, mouseY);
       }
     }
+    strokeWeight(3);
+    stroke(0);
   }
 
-  public void saveMap() {
-    PrintWriter saver = createWriter("map.AHMAP"); 
-    for (int i=0; i<points.size(); i++) {
-      saver.println(points.get(i).x + " " + points.get(i).y);
+  public void SAVEmap() {
+    selectOutput("Pick a location to save your map", "saveMapWithFileName");
+    noLoop();
+  }
+
+  public void saveMap(File selection) {
+    if (selection == null) {
+    } else {
+      PrintWriter saver = createWriter(selection.getAbsolutePath() + ".AHMAP"); 
+      for (int i=0; i<points.size(); i++) {
+        saver.println(points.get(i).x + " " + points.get(i).y);
+      }
+
+      saver.flush();
+      saver.close();
     }
-
-    saver.flush();
-    saver.close();
+    mousePressed=false;
+    loop();
   }
 
-  public void loadMap(File selection) {
+  public ArrayList getPoints() {
+    return points;
+  }
+
+  public int checkMode() {
+    return mapMode;
+  }
+
+  public void clearMap() {
+    mapMode = -1;
     while (points.size() > 0) {
       points.remove(0);
     }
-    String[] newPoints = loadStrings(selection.getAbsolutePath());
-    for (int i=0; i<newPoints.length; i++) {
-      String[] specificPoint = split(newPoints[i], " ");
-       points.add(new PVector(int (specificPoint[0]), int (specificPoint[1])));
-    }
-   
-    mapMode = 2;
   }
 }
