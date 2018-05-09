@@ -36,6 +36,7 @@ public void setup() {
 
 public void draw() {
   background(255, 255, 240);
+  stroke(0);
 
   if (gameMode == 0) {
     mainMenu();
@@ -43,10 +44,111 @@ public void draw() {
     race.draw();
     p1.showCOM();
   } else if (gameMode == 20) {
+    background(00, 165, 80);
+    strokeWeight(0);
+    rectMode(CORNER);
+    fill(0);
+    rect(width - 76, 0, width, height);
+
+    rectMode(CENTER);
+    strokeWeight(3);
+    fill(255, 87, 10);
+    if (mouseX > (width - 38)-(50/2) && mouseX < (width - 38)+(50/2) && mouseY > 50-(50/2) && mouseY < 50+(50/2)) {
+      fill(255, 135, 75);
+      if (mousePressed && map.checkMode() == 2) {
+        selectOutput("Pick a place to save your map", "saveFileFromSelection");
+        noLoop();
+      }
+    }
+    rect(width - 38, 50, 50, 50, 10);
+    fill(0);
+    textSize(13);
+    text("Save", width - 38, 55);
+
+
+    fill(255, 87, 10);
+    if (mouseX > (width - 38)-(50/2) && mouseX < (width - 38)+(50/2) && mouseY > 125-(50/2) && mouseY < 125+(50/2)) {
+      fill(255, 135, 75);
+      if (mousePressed) {
+        map.clearMap();
+      }
+    }
+    rect(width - 38, 125, 50, 50, 10);
+    fill(0);
+    textSize(13);
+    text("Restart", width - 38, 130);
+
+    fill(9, 64, 116);
+    if (mouseX > (width - 38)-(50/2) && mouseX < (width - 38)+(50/2) && mouseY > (height-55)-(50/2) && mouseY < (height-55)+(50/2)) {
+      fill(65, 110, 150);
+      if (mousePressed) {
+        gameMode = 0;
+      }
+    }
+    rect(width - 38, height-55, 50, 50, 10);
+    fill(255);
+    textSize(13);
+    text("Home", width - 38, height-50);
+
+
+
     map.makeMap();
     map.drawMap();
+  } else if (gameMode == 25) {
+    background(00, 165, 80);
+    strokeWeight(0);
+    rectMode(CORNER);
+    fill(0);
+    rect(width - 76, 0, width, height);
+
+    rectMode(CENTER);
+    strokeWeight(3);
+    fill(255, 87, 10);
+    if (mouseX > (width - 38)-(50/2) && mouseX < (width - 38)+(50/2) && mouseY > 50-(50/2) && mouseY < 50+(50/2)) {
+      fill(255, 135, 75);
+      if (mousePressed) {
+        selectInput("Select map to load", "loadFileFromSelection");
+        noLoop();
+        println("loading");
+      }
+    }
+    rect(width - 38, 50, 50, 50, 10);
+    fill(0);
+    textSize(13);
+    text("Load", width - 38, 55);
+
+
+    fill(255, 87, 10);
+    if (mouseX > (width - 38)-(50/2) && mouseX < (width - 38)+(50/2) && mouseY > 125-(50/2) && mouseY < 125+(50/2)) {
+      fill(255, 135, 75);
+      if (mousePressed) {
+
+        p1.startRace();
+        p2.startRace();
+      }
+    }
+    rect(width - 38, 125, 50, 50, 10);
+    fill(0);
+    textSize(13);
+    text("Restart", width - 38, 130);
+
+    fill(9, 64, 116);
+    if (mouseX > (width - 38)-(50/2) && mouseX < (width - 38)+(50/2) && mouseY > (height-55)-(50/2) && mouseY < (height-55)+(50/2)) {
+      fill(65, 110, 150);
+      if (mousePressed) {
+        gameMode = 0;
+      }
+    }
+    rect(width - 38, height-55, 50, 50, 10);
+    fill(255);
+    textSize(13);
+    text("Home", width - 38, height-50);
+
+
+    p1.race(p2);
+    p2.race();
   } else if (gameMode == 30) {
-    p1.showCOM();
+    sp1.showCOM();
     if (miniGame.update(p1.getX(), p1.getY())>-1) {
       gameMode=0;
     }
@@ -103,9 +205,11 @@ void mainMenu() {
   if (mouseX > (width/2)-(350/2) && mouseX < (width/2)+(350/2) && mouseY > 150-(75/2) && mouseY < 150+(75/2)) {
     fill(255, 75, 100);
     if (mousePressed) {
-      p1.startRace();
-      p2.startRace();
-      gameMode = 10;
+      //p1.startRace();
+      //p2.startRace();
+      //gameMode = 10;
+      selectInput("Select map to load", "loadFileFromSelection");
+      noLoop();
     }
   }
   rect(width/2, 150, 350, 75, 10);
@@ -122,17 +226,18 @@ void mainMenu() {
   rect(width/2, 250, 350, 75, 10);
   fill(255, 255, 255);
   text("Make A Map", width/2, 267);
-  fill(255, 87, 10);
-  if (mouseX > (width/2 + 250)-(75/2) && mouseX < (width/2 + 250)+(75/2) && mouseY > 250-(75/2) && mouseY < 250+(75/2)) {
-    fill(255, 135, 75);
-    if (mousePressed) {
-      selectInput("Select a .AHMAP file to open", "loadFileFromSelection");
-      noLoop();
-    }
-  }
-  rect(width/2 + 250, 250, 75, 75, 10);
-  fill(255, 255, 255);
-  text("+", width/2 + 250, 267);
+  
+  //fill(255, 87, 10);
+  //if (mouseX > (width/2 + 250)-(75/2) && mouseX < (width/2 + 250)+(75/2) && mouseY > 250-(75/2) && mouseY < 250+(75/2)) {
+  //  fill(255, 135, 75);
+  //  if (mousePressed) {
+  //    selectInput("Select map to load", "loadFileFromSelection");
+  //    noLoop();
+  //  }
+  //}
+  //rect(width/2 + 250, 250, 75, 75, 10);
+  //fill(255, 255, 255);
+  //text("+", width/2 + 250, 267);
 
 
   fill(50, 159, 91);
@@ -149,10 +254,34 @@ void mainMenu() {
 }
 
 public void loadFileFromSelection(File selection) {
-  if(selection == null){
-  }else if (selection.getAbsolutePath().indexOf(".AHMAP")>=0) {
-    gameMode = 20;
-    map.loadMap(selection);
+  if (selection == null) {
+  } else if (selection.getAbsolutePath().indexOf(".AHMAP")>=0) {
+    gameMode = 25;
+    //map.loadMap(selection);
+    p1.startTopDownRace("red", selection);
+    p2.startTopDownRace("dark blue", selection);
+    p1.startRace();
+    p2.startRace();
+  }
+  mousePressed=false;
+  loop();
+}
+
+public void saveFileFromSelection(File selection) {
+  ArrayList<PVector> points = map.getPoints();
+  if (selection == null) {
+  } else {
+    String saveLocation = selection.getAbsolutePath();
+    if (selection.getAbsolutePath().indexOf(".") >0) {
+      saveLocation = selection.getAbsolutePath().substring(0, selection.getAbsolutePath().indexOf("."));
+    }
+    PrintWriter saver = createWriter(saveLocation + ".AHMAP"); 
+    for (int i=0; i<points.size(); i++) {
+      saver.println(points.get(i).x + " " + points.get(i).y);
+    }
+
+    saver.flush();
+    saver.close();
   }
   mousePressed=false;
   loop();

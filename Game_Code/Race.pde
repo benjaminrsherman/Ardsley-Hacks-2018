@@ -1,5 +1,5 @@
 class Race {
-  
+
   final int idealWidth = 240;
   final int stepGoal = 50; // Steps needed to win the game
 
@@ -8,8 +8,8 @@ class Race {
 
   PImage car1;
   PImage car2;
-  
- 
+
+
 
   public Race(Player first, Player second) {
     p1 = first;

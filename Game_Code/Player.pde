@@ -26,6 +26,11 @@ class Player {
   boolean raceStarted = false;
 
 
+  car myCar;
+
+  float pStepsTakenf = 0;//total number of steps taken so far
+
+
   public Player(int num, char step, PApplet  main) {
     id = num;
     stepID = step;
@@ -72,15 +77,15 @@ class Player {
     }
   }
 
-  public void showCOM() { // Shows the center of mass of the player. Don't use unless you're Eli
+  public void showCOM() {
     noStroke();
     fill(255, 0, 0);
     ellipse(px, py, 20, 20);
 
     strokeWeight(10);
     stroke(0);
-    line(defaultX+(width*stepOfsetPercentage), 0, defaultX+(width*stepOfsetPercentage), height);
-    line(defaultX-(width*stepOfsetPercentage), 0, defaultX-(width*stepOfsetPercentage), height);
+    //line(defaultX+(width*stepOfsetPercentage), 0, defaultX+(width*stepOfsetPercentage), height);
+    //line(defaultX-(width*stepOfsetPercentage), 0, defaultX-(width*stepOfsetPercentage), height);
     //line(defaultX,0,defaultX,height);
   }
 
@@ -99,16 +104,32 @@ class Player {
 
   void updateSteps() { 
     if (raceStarted == true) {
-      if (px > defaultX+(width*stepOfsetPercentage) && stepNeeded>=0) {
-        stepNeeded = -1;
-        pStepsTaken++;
-        println("right step, total steps taken=" + pStepsTaken);
+      if (stepNeeded>=0) {//right
+        float tempStepTaken = abs(defaultX-px)/( width *stepOfsetPercentage);
+        if (tempStepTaken >=1 && defaultX-px < 0) {
+          tempStepTaken = 1;
+          myCar.moveStep(floor(pStepsTakenf)+tempStepTaken-pStepsTakenf);
+          pStepsTakenf=floor(pStepsTakenf)+1;
+          stepNeeded = -1;
+        } else if (floor(pStepsTakenf)+tempStepTaken > pStepsTakenf && defaultX-px < 0) {
+          myCar.moveStep(floor(pStepsTakenf)+tempStepTaken-pStepsTakenf);
+          pStepsTakenf=floor(pStepsTakenf)+tempStepTaken;
+        }
+        println("right tempStepTaken: " + tempStepTaken);
+      } else if (stepNeeded<=0) {//right
+        float tempStepTaken = abs(defaultX-px)/( width *stepOfsetPercentage);
+        if (tempStepTaken >=1 && defaultX-px > 0) {
+          tempStepTaken = 1;
+          myCar.moveStep(floor(pStepsTakenf)+tempStepTaken-pStepsTakenf);
+          pStepsTakenf=floor(pStepsTakenf)+1;
+          stepNeeded = 1;
+        } else if (floor(pStepsTakenf)+tempStepTaken > pStepsTakenf && defaultX-px > 0) {
+          myCar.moveStep(floor(pStepsTakenf)+tempStepTaken-pStepsTakenf);
+          pStepsTakenf=floor(pStepsTakenf)+tempStepTaken;
+        }
+        println("left tempStepTaken: " + tempStepTaken);
       }
-      if (px < defaultX-(width*stepOfsetPercentage) && stepNeeded<=0) {
-        stepNeeded = 1;
-        pStepsTaken++;
-        println("left step, total steps taken=" + pStepsTaken);
-      }
+      println("steps taken: " + pStepsTakenf);
     }
   } 
 
@@ -124,5 +145,26 @@ class Player {
 
   void startRace() {
     raceStarted = true;
+    myCar.restart();
+  }
+
+
+
+  void startTopDownRace(String carColor, File selection) {
+    myCar = new car(carColor);
+    myCar.loadMap(selection);
+  }
+
+  public void race(Player p2) {
+    myCar.drawMap(p2.getCar());
+    myCar.moveCar();
+  }
+
+  public void race() {
+    myCar.moveCar();
+  }
+
+  public car getCar() {
+    return myCar;
   }
 }
