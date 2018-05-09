@@ -30,6 +30,6 @@ app.post('/map', (req, res) => {
   var map_id = req.body.map_id
   exec("echo '" + req.body + "' >> data/" + map_id + ".AHMAP")
   console.log("Uploaded map " + map_id)
-}
+})
 
 app.listen(3000, () => console.log("Listening on port 3000"))
