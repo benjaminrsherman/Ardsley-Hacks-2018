@@ -21,7 +21,7 @@ app.post('/score', (req, res) => {
 app.get('/score', (req, res) => {
   var map_id = req.body.map_id
   var score = ""
-  exec("ls -1 /data | grep '@" + map_id + "@' | sort -t '@" + map_id + "@' -k 2 | head -1", // unix piping amirite
+  exec("ls -1 /data | grep '@" + map_id + "@' | sort -t '@" + map_id + "@' -k 2 | head -1 | cut -f 3 -d '@'", // unix piping amirite
     (err, stdout, stderr) => { res.send(stdout) } )
 })
 
