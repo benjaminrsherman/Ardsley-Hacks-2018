@@ -32,4 +32,13 @@ app.post('/map', (req, res) => {
   console.log("Uploaded map " + map_id)
 })
 
+app.get('/map', (req, res) => {
+  var map_id = req.body.map_id
+  var str = ""
+  exec("cat data/" + map_id + ".AHMAP",
+    (err, stdout, stderr) => { str = stdout } )
+  res.send(str)
+  console.log("Retrieving map " + map_id)
+})
+
 app.listen(3000, () => console.log("Listening on port 3000"))
