@@ -5,6 +5,12 @@ var app = express()
 
 app.use(express.json())
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.get('/', (req, res) => {
   res.send('pls no hack thx')
 })
@@ -21,9 +27,15 @@ app.post('/score', (req, res) => {
 app.get('/score', (req, res) => {
   var map_id = req.body.map_id
   var score = ""
-  exec("ls -1 /data | grep '@" + map_id + "@' | sort -t '@" + map_id + "@' -k 2 | head -1 | cut -f 3 -d '@'", // unix piping amirite
+  exec("ls -1 ./data | grep '@" + map_id + "@' | sort -t '@" + map_id + "@' -k 2 | head -1 | cut -f 3 -d '@'", // unix piping amirite
     (err, stdout, stderr) => { res.send(stdout) } )
   console.log("Retrieving score for map " + map_id)
+})
+
+app.get('/top-score', (req, res) => {
+  exec("ls -1 ./data | cut -f 3 -d '@' | sort -k 2 | head -1",
+    (err, stdout, stderr) => { res.send(stdout) });
+  console.log("Retrieving top score")
 })
 
 app.post('/map', (req, res) => {
