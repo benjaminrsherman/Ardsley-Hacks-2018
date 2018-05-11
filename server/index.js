@@ -33,7 +33,7 @@ app.get('/score', (req, res) => {
 })
 
 app.get('/top-score', (req, res) => {
-  exec("ls -1 ./data | cut -f 3 -d '@' | sort -k 2 | head -1",
+  exec("ls -1 ./data | awk -F '@' '{print $3}' | sort | sed '1!G;h;$!d' | head -1",
     (err, stdout, stderr) => { res.send(stdout) });
   console.log("Retrieving top score")
 })
@@ -51,6 +51,12 @@ app.get('/map', (req, res) => {
     (err, stdout, stderr) => { str = stdout } )
   res.send(str)
   console.log("Retrieving map " + map_id)
+})
+
+app.get('/total-maps', (req, res) => {
+  exec("ls -1 ./data | awk -F '@' '{print $2}' | uniq | wc -l",
+    (err, stdout, stderr) => { res.send(stdout) })
+  console.log("Retrieving total number of maps")
 })
 
 app.listen(3000, () => console.log("Listening on port 3000"))
