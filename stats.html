@@ -54,7 +54,10 @@
     <script src="js/bootstrap.min.js"></script>
     <script>
       $.get("http://home.bensherman.io:42069/top-score", function(data) {
-       $('#high-score').text("Highest score: " + data)
+        $('#high-score').text("Highest score: " + data)
+      })
+      $.get("http://home.bensherman.io:42069/total-maps", function(data) {
+        $('#total-maps').text("Total maps: " + data)
       })
     </script>
   </body>
