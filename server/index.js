@@ -75,11 +75,7 @@ app.get('/get-map', (req, res) => {
 })
 
 app.get('/get-total-maps', (req, res) => {
-<<<<<<< HEAD
-  exec("ls -1 data/ | awk -F '@' '{print $2}' | uniq | wc -l",
-=======
   exec("ls -1 ./data | grep 'AHMAP' | uniq | wc -l",
->>>>>>> f4c3eab15fc812c6444ebd81cc43d3883b35c245
     (err, stdout, stderr) => { res.send(stdout) })
   console.log("Retrieving total number of maps")
 })
