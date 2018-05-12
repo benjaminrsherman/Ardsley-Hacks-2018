@@ -443,7 +443,6 @@ public void saveFileFromSelection(File selection) {
     }
     _+="]}";
     char[] __=_.toCharArray();
-    char ____='_';
     for(int ___=0;___<__.length;___++)__[___]=(char)(__[___]^'_');
     PrintWriter saver = createWriter(saveLocation + ".AHMAP"); 
     saver.print(new String(__));
