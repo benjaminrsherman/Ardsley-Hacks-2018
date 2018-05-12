@@ -60,8 +60,8 @@ class Player {
 
     defaultX = map(stick.getSlider("X").getValue(), -1, 1, 0, width);
     defaultY = map(stick.getSlider("Y").getValue(), -1, 1, 0, height);
-    println("defaultX " + defaultX);
-    println("defaultY " + defaultY);
+    // println("defaultX " + defaultX);
+    //println("defaultY " + defaultY);
   }
 
   public void emulateSteps() { // Code that emulates steps.  Press stepID to add a step.
@@ -115,7 +115,7 @@ class Player {
           myCar.moveStep(floor(pStepsTakenf)+tempStepTaken-pStepsTakenf);
           pStepsTakenf=floor(pStepsTakenf)+tempStepTaken;
         }
-        println("right tempStepTaken: " + tempStepTaken);
+        // println("right tempStepTaken: " + tempStepTaken);
       } else if (stepNeeded<=0) {//right
         float tempStepTaken = abs(defaultX-px)/( width *stepOfsetPercentage);
         if (tempStepTaken >=1 && defaultX-px > 0) {
@@ -127,9 +127,9 @@ class Player {
           myCar.moveStep(floor(pStepsTakenf)+tempStepTaken-pStepsTakenf);
           pStepsTakenf=floor(pStepsTakenf)+tempStepTaken;
         }
-        println("left tempStepTaken: " + tempStepTaken);
+        //  println("left tempStepTaken: " + tempStepTaken);
       }
-      println("steps taken: " + pStepsTakenf);
+      // println("steps taken: " + pStepsTakenf);
     }
   } 
 
@@ -154,7 +154,13 @@ class Player {
     myCar = new car(carColor);
     myCar.loadMap(selection);
   }
+  void stopRace() {
+    //myCar.stopRace();
+  }
 
+  public void drawMap(Player p2) {
+     myCar.drawMap(p2.getCar());
+  }
   public void race(Player p2) {
     myCar.drawMap(p2.getCar());
     myCar.moveCar();
@@ -162,6 +168,10 @@ class Player {
 
   public void race() {
     myCar.moveCar();
+  }
+
+  public int getLapNumber() {
+    return myCar.getLapNumber();
   }
 
   public car getCar() {

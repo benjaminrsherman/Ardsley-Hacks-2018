@@ -1,9 +1,10 @@
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.util.Random;
+import http.requests.*;
 
 
-
+tracer trace = new tracer();
 
 Random r = new Random();
 
@@ -15,6 +16,12 @@ Player p2 = new Player(1, 'w', this, !doYouHaveAWiiFitBoard);
 Race race = new Race(p1, p2);
 
 mapMaker map = new mapMaker();
+
+int timer = 0;
+
+String name = "";
+boolean keyJustPressed=false;
+
 
 comMiniGame miniGame = new comMiniGame();
 
@@ -41,8 +48,7 @@ public void draw() {
   if (gameMode == 0) {
     mainMenu();
   } else if (gameMode == 10) {
-    race.draw();
-    p1.showCOM();
+    trace.drawGame();
   } else if (gameMode == 20) {
     background(00, 165, 80);
     strokeWeight(0);
@@ -71,6 +77,7 @@ public void draw() {
       fill(255, 135, 75);
       if (mousePressed) {
         map.clearMap();
+        timer = 0;
       }
     }
     rect(width - 38, 125, 50, 50, 10);
@@ -82,7 +89,10 @@ public void draw() {
     if (mouseX > (width - 38)-(50/2) && mouseX < (width - 38)+(50/2) && mouseY > (height-55)-(50/2) && mouseY < (height-55)+(50/2)) {
       fill(65, 110, 150);
       if (mousePressed) {
+        p1.stopRace();
+        p2.stopRace();
         gameMode = 0;
+        timer = 0;
       }
     }
     rect(width - 38, height-55, 50, 50, 10);
@@ -108,6 +118,7 @@ public void draw() {
       fill(255, 135, 75);
       if (mousePressed) {
         selectInput("Select map to load", "loadFileFromSelection");
+        timer = 0;
         noLoop();
         println("loading");
       }
@@ -125,6 +136,7 @@ public void draw() {
 
         p1.startRace();
         p2.startRace();
+        timer = 0;
       }
     }
     rect(width - 38, 125, 50, 50, 10);
@@ -145,14 +157,70 @@ public void draw() {
     text("Home", width - 38, height-50);
 
 
-    p1.race(p2);
-    p2.race();
+
+
+    if (p1.getLapNumber() >= 3) {
+      p1.drawMap(p2);
+      fill(255, 215, 0);
+      rectMode(CENTER);
+      noStroke();
+      rect(width/2-76, height/2, 350, 75, 100);
+      fill(0);
+      textSize(50);
+      text("Player 1 Wins!", width/2-76, height/2+17);
+      //println("score = " + timer);
+      nameBox();
+    } else if (p2.getLapNumber() >= 3) {
+      p1.drawMap(p2);
+      fill(255, 215, 0);
+      rectMode(CENTER);
+      noStroke();
+      rect(width/2-76, height/2, 350, 75, 100);
+      fill(0);
+      textSize(50);
+      text("Player 2 Wins!", width/2-76, height/2+17);
+      //println("score = " + timer);
+      nameBox();
+    } else {
+      timer++;
+      p1.race(p2);
+      p2.race();
+    }
   } else if (gameMode == 30) {
-    sp1.showCOM();
+    p1.showCOM();
     if (miniGame.update(p1.getX(), p1.getY())>-1) {
       gameMode=0;
     }
   }
+}
+
+void nameBox() {
+  if (keyPressed == true) {
+    if (keyJustPressed==false) {
+      keyJustPressed=true;
+      println(key);
+      if (key == '') {
+        println("backspace");
+        if (name.length()>0) {
+          name=name.substring(0, name.length()-1);
+        }
+      } else {
+        name+=key;
+        name=name.toUpperCase();
+      }
+    }
+  } else {
+    keyJustPressed=false;
+  }
+
+  fill(255);
+  stroke(0);
+  rect(width/2-76, height/2+100, 350, 75, 100);
+
+  textAlign(LEFT);
+  fill(0);
+  text(name, width/2-76-(350/2)+5, height/2+17+100);
+  textAlign(CENTER);
 }
 
 void genSteps() {
@@ -226,19 +294,20 @@ void mainMenu() {
   rect(width/2, 250, 350, 75, 10);
   fill(255, 255, 255);
   text("Make A Map", width/2, 267);
-  
-  //fill(255, 87, 10);
-  //if (mouseX > (width/2 + 250)-(75/2) && mouseX < (width/2 + 250)+(75/2) && mouseY > 250-(75/2) && mouseY < 250+(75/2)) {
-  //  fill(255, 135, 75);
-  //  if (mousePressed) {
-  //    selectInput("Select map to load", "loadFileFromSelection");
-  //    noLoop();
-  //  }
-  //}
-  //rect(width/2 + 250, 250, 75, 75, 10);
-  //fill(255, 255, 255);
-  //text("+", width/2 + 250, 267);
 
+
+//plus button
+  fill(255, 87, 10);
+  if (mouseX > (width/2 + 250)-(75/2) && mouseX < (width/2 + 250)+(75/2) && mouseY > 250-(75/2) && mouseY < 250+(75/2)) {
+    fill(255, 135, 75);
+    if (mousePressed) {
+      gameMode = 10;
+    }
+  }
+  rect(width/2 + 250, 250, 75, 75, 10);
+  fill(255, 255, 255);
+  text("+", width/2 + 250, 267);
+//plus button
 
   fill(50, 159, 91);
   if (mouseX > (width/2)-(350/2) && mouseX < (width/2)+(350/2) && mouseY > 350-(75/2) && mouseY < 350+(75/2)) {
@@ -262,6 +331,7 @@ public void loadFileFromSelection(File selection) {
     p2.startTopDownRace("dark blue", selection);
     p1.startRace();
     p2.startRace();
+    timer = 0;
   }
   mousePressed=false;
   loop();
@@ -272,14 +342,23 @@ public void saveFileFromSelection(File selection) {
   if (selection == null) {
   } else {
     String saveLocation = selection.getAbsolutePath();
-    if (selection.getAbsolutePath().indexOf(".") >0) {
+    if (selection.getAbsolutePath().indexOf(".") > 0) {
       saveLocation = selection.getAbsolutePath().substring(0, selection.getAbsolutePath().indexOf("."));
     }
     PrintWriter saver = createWriter(saveLocation + ".AHMAP"); 
+    saver.println("{");
+    saver.println("\"map_id\": \"" + random(10000, 99999) + "\",");
+    saver.print("\"points\": [");
     for (int i=0; i<points.size(); i++) {
-      saver.println(points.get(i).x + " " + points.get(i).y);
+      saver.print("\"" + points.get(i).x + " " + points.get(i).y);
+      if (i+1==points.size()) {
+        saver.print("\"");
+      } else {
+        saver.print("\",");
+      }
     }
-
+    saver.println("]");
+    saver.println("}");
     saver.flush();
     saver.close();
   }

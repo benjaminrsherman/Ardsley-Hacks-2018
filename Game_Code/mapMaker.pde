@@ -90,13 +90,18 @@ class mapMaker {
   }
 
   public void saveMap(File selection) {
+    println("saving");
     if (selection == null) {
     } else {
       PrintWriter saver = createWriter(selection.getAbsolutePath() + ".AHMAP"); 
+      saver.println("{");
+      saver.println("\"map_id\": \"" + random(10000, 99999) + "\",");
+      saver.print("\"points\": \": [");
       for (int i=0; i<points.size(); i++) {
-        saver.println(points.get(i).x + " " + points.get(i).y);
+        saver.print("\"" + points.get(i).x + " " + points.get(i).y + "\"");
       }
-
+      saver.println("]");
+      saver.println("}");
       saver.flush();
       saver.close();
     }

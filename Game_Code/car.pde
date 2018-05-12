@@ -4,8 +4,10 @@ class car {
   float distToMove = 0;
   int currentPoint = 0;
 
-  // float x =-99;
-  //float y =-99;
+  float x =-99;
+  float y =-99;
+  float ang = 0;
+  
 
   int lapNumber = 0;
 
@@ -16,6 +18,8 @@ class car {
     img = loadImage("assets/top down cars/top down " + carColor + " car.png");
     rescaleImage(img);
     lapNumber = 0;
+    currentPoint = 0;
+    distToMove = 0;
   }
 
   void rescaleImage(PImage img) {
@@ -27,9 +31,19 @@ class car {
     while (points.size() > 0) {
       points.remove(0);
     }
+
+
     String[] newPoints = loadStrings(selection.getAbsolutePath());
+    String jsonPointsString = "";
     for (int i=0; i<newPoints.length; i++) {
-      String[] specificPoint = split(newPoints[i], " ");
+      jsonPointsString+=newPoints[i];
+    }
+    JSONObject jsonPoints = parseJSONObject(jsonPointsString);
+    JSONArray values = jsonPoints.getJSONArray("points");
+    println(values.getString(1));
+
+    for (int i=0; i<values.size(); i++) {
+      String[] specificPoint = split(values.getString(i), " ");
       points.add(new PVector(int (specificPoint[0]), int (specificPoint[1])));
     }
   }
@@ -49,7 +63,9 @@ class car {
       curPointPlus1 = points.get(currentPoint+1);
     } else {
       curPointPlus1 = points.get(0);
+      lapNumber++;
     }
+    //println(lapNumber);
 
 
 
@@ -74,6 +90,10 @@ class car {
       image(img, 0, 0);
       popMatrix();
 
+      x = curPoint.x+trackSection.x;
+      y = curPoint.y+trackSection.y;
+      ang = trackSection.heading();
+
       // ellipse(curPoint.x+trackSection.x, curPoint.y+trackSection.y, 15, 15);
       // println(trackSection.mag());
     }
@@ -92,6 +112,19 @@ class car {
       stroke(239, 183, 0);
       line(points.get(i).x, points.get(i).y, points.get(i-1).x, points.get(i-1).y);
     }
+
+    this.showCar();
+    secondCar.showCar();
+  }
+
+  public void showCar() {
+    imageMode(CENTER);
+
+    pushMatrix();
+    translate(x, y);
+    rotate(ang);
+    image(img, 0, 0);
+    popMatrix();
   }
 
   public void moveStep(float ammount) {
