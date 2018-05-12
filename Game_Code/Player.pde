@@ -155,9 +155,9 @@ class Player {
 
 
 
-  void startTopDownRace(String carColor, File selection) {
+  void startTopDownRace(String carColor, JSONObject theJson) {
     myCar = new car(carColor);
-    myCar.loadMap(selection);
+    myCar.loadMap(theJson);
   }
   
     void startTopDownRace(String carColor, String thePoints) {

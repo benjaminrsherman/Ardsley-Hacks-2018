@@ -27,18 +27,18 @@ class car {
     img.resize(idealSize, (int)(idealSize/ratio));
   }
 
-  public void loadMap(File selection) {
+  public void loadMap(JSONObject theData) {
     while (points.size() > 0) {
       points.remove(0);
     }
 
 
-    String[] newPoints = loadStrings(selection.getAbsolutePath());
-    String jsonPointsString = "";
-    for (int i=0; i<newPoints.length; i++) {
-      jsonPointsString+=newPoints[i];
-    }
-    JSONObject jsonPoints = parseJSONObject(jsonPointsString);
+    //String[] newPoints = loadStrings(selection.getAbsolutePath());
+    //String jsonPointsString = "";
+    //for (int i=0; i<newPoints.length; i++) {
+    //  jsonPointsString+=newPoints[i];
+    //}
+    JSONObject jsonPoints = theData;
     JSONArray values = jsonPoints.getJSONArray("points");
     //println(values.getString(1));
 
