@@ -22,6 +22,10 @@ boolean keyJustPressed=false;
 
 int mapid=-999;
 
+String names ="";
+String scores = "";
+String mapids = "";
+boolean needToGetScores = true;
 
 comMiniGame miniGame = new comMiniGame();
 
@@ -167,6 +171,11 @@ public void draw() {
       fill(0);
       textSize(50);
       text("Player 1 Wins!", width/2-76, height/2+17);
+      
+      if(needToGetScores == true){
+        needToGetScores = false;
+        getScores();
+      }
       //println("score = " + timer);
       nameBox(p1);
     } else if (p2.getLapNumber() >= 3) {
@@ -180,6 +189,11 @@ public void draw() {
       text("Player 2 Wins!", width/2-76, height/2+17);
       //println("score = " + timer);
       nameBox(p2);
+      
+      if(needToGetScores == true){
+        needToGetScores = false;
+        getScores();
+      }
     } else {
       timer++;
       if (timer>=60*3) {
@@ -259,6 +273,28 @@ void nameBox(Player winningPlayer) {
 }
 
 
+
+void getScores(){
+  String url2 = "http://home.bensherman.io:42069/get-map/?get-top-scores-name";
+  GetRequest get2 = new GetRequest(url2);
+  get2.send();
+  println("Reponse Content: " + get2.getContent());
+  names = get2.getContent();
+  
+  url2 = "http://home.bensherman.io:42069/get-map/?get-top-scores-name";
+  get2 = new GetRequest(url2);
+  get2.send();
+  println("Reponse Content: " + get2.getContent());
+  scores = get2.getContent();
+  
+  url2 = "http://home.bensherman.io:42069/get-map/?get-top-scores-name";
+  get2 = new GetRequest(url2);
+  get2.send();
+  println("Reponse Content: " + get2.getContent());
+  mapids = get2.getContent();
+}
+
+
 void scoreBoard() {
   noStroke();
   fill(0, 0, 0, 100);
@@ -268,13 +304,17 @@ void scoreBoard() {
   textSize(25);
   textMode(CORNER);
   textAlign(LEFT);
+
+  
+  
+  
   for (int i=0; i<5; i++) {
     text(i+1 + ": Name", 55, 100+(50*i));
     //text("Name", 80, 100+(50*i));
-    
+
     text("Name", 75+150, 100+(50*i));
   }
-  
+
   textAlign(CENTER);
 }
 
@@ -401,7 +441,7 @@ public void loadFileFromSelection(File selection) {
   } else if (selection.getAbsolutePath().indexOf(".AHMAP")>=0) {
     String[] newPoints = loadStrings(selection.getAbsolutePath());
     char[] _=newPoints[0].toCharArray();
-    for(int __=0;__<_.length;__++)_[__]=(char)(_[__]^'_');
+    for (int __=0; __<_.length; __++)_[__]=(char)(_[__]^'_');
     JSONObject jsonPoints = parseJSONObject(new String(_));
     mapid = int(jsonPoints.getString("map_id"));
     println("mapid= " + mapid);
@@ -443,7 +483,7 @@ public void saveFileFromSelection(File selection) {
     }
     _+="]}";
     char[] __=_.toCharArray();
-    for(int ___=0;___<__.length;___++)__[___]=(char)(__[___]^'_');
+    for (int ___=0; ___<__.length; ___++)__[___]=(char)(__[___]^'_');
     PrintWriter saver = createWriter(saveLocation + ".AHMAP"); 
     saver.print(new String(__));
     saver.flush();
