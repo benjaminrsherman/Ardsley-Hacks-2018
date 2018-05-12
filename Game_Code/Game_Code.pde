@@ -3,6 +3,9 @@ import javafx.scene.media.MediaPlayer;
 import java.util.Random;
 import http.requests.*;
 
+import processing.sound.*;
+SoundFile file;
+
 String mapidString = "";
 Random r = new Random();
 
@@ -34,6 +37,9 @@ boolean keyAlreadyPressed;
 
 public void setup() {
   size(1280, 720);
+  
+  file = new SoundFile(this, "C:/Users/elihs/OneDrive/Github/Ardsley-Hacks-2018/Game_Code/assets/");
+  file.play();
 
   p1.init();
   p2.init();
@@ -203,11 +209,9 @@ public void draw() {
       if (timer>=60*3) {
         p1.startLaps();
         p2.startLaps();
-        
-        text("Player 1 Score: " +  p1.getScore(timer),100,25);
-        text("Player 2 Score: " +  p2.getScore(timer),100,50);
-        
-       
+        textSize(25);
+        text("Player 1 Score: " +  p1.getScore(timer), 150, 25);
+        text("Player 2 Score: " +  p2.getScore(timer), 150, 50);
       } else {
         noStroke();
         fill(0, 0, 0, 100);
@@ -218,7 +222,6 @@ public void draw() {
       }
       //p1.startLaps();
       //  p1.startLaps();
-      
     }
   } else if (gameMode == 30) {
     p1.showCOM();
@@ -232,7 +235,7 @@ public void draw() {
 
 
 
-void mapBox(){
+void mapBox() {
   if (keyPressed == true) {
     if (keyJustPressed==false) {
       keyJustPressed=true;
@@ -254,7 +257,7 @@ void mapBox(){
   } else {
     keyJustPressed=false;
   }
-  
+
   textMode(CENTER);
   fill(255);
   stroke(0);
@@ -413,7 +416,7 @@ void motivate() {
 
 
 void mainMenu() {
-  
+
   noStroke();
   background(9, 64, 116);
   textAlign(CENTER);
@@ -488,7 +491,7 @@ void mainMenu() {
   //rect(width/2, 350, 350, 75, 10);
   //fill(255, 255, 255);
   //text("Mini Games", width/2, 367);
-  
+
   mapBox();
 }
 
@@ -518,6 +521,7 @@ public void loadFileFromSelection(File selection) {
 
 public void saveFileFromSelection(File selection) {
   int theMapId = floor(random(10000, 99999));
+  mapidString = "" + theMapId;
   String pointsToSend = "";
   ArrayList<PVector> points = map.getPoints();
   if (selection == null) {

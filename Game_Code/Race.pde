@@ -29,10 +29,10 @@ class Race {
     float car2prog = (float)p2.getSteps()/stepGoal;
 
     if (car1prog >= 1 && car1prog >= car2prog) {
-      println("Car 1 wins!");
+      //println("Car 1 wins!");
       System.exit(0);
     } else if (car2prog >= 1) {
-      println("Car 2 wins!");
+      //println("Car 2 wins!");
       System.exit(0);
     }
 
