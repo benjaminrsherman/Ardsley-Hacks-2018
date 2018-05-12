@@ -69,8 +69,14 @@ app.get('/post-map', (req, res) => {
 app.get('/get-map', (req, res) => {
   var map_id = req.query.map_id
   var str = ""
-  exec("cat ./data/" + map_id + ".AHMAP",
-    (err, stdout, stderr) => { res.send(stdout) } )
+  exec("file data/" + map_id + ".AHMAP", (err, stdout, stderr) => {
+    if (stdout.indexOf("No such file or directory") == -1) {
+      exec("cat data/" + map_id + ".AHMAP",
+        (err, stdout, stderr) => { res.send(stdout) } )
+    } else {
+      exec("cat data/44737.AHMAP", (err, stdout, stderr) => { res.send(stdout) } )
+    }
+  })
   console.log("Retrieving map " + map_id)
 })
 
