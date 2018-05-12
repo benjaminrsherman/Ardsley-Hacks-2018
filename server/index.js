@@ -41,7 +41,8 @@ app.get('/get-top-score', (req, res) => {
 
 app.get('/post-map', (req, res) => {
   var map_id = req.query.map_id
-  exec("echo '" + req.query + "' >> data/" + map_id + ".AHMAP")
+  var points = req.query.points
+  exec("echo '" + req.query.points + "' >> data/" + map_id + ".AHMAP")
   console.log("Uploaded map " + map_id)
 })
 
