@@ -65,6 +65,11 @@
     			<td id="map5"></td> 
     			<td id="score5"></td>
   		  </tr>
+  		  <tr>
+    			<td></td>
+    			<td></td> 
+    			<td></td>
+  		  </tr>
 		</table>
 		
         <p class="lead">
@@ -88,6 +93,9 @@
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script>
+      $.get("http://home.bensherman.io:42069/get-total-maps", function(data) {
+      	$('#total-maps').text("Total Maps: " + data);
+      })
       $.get("http://home.bensherman.io:42069/get-top-scores-score", function(data) {
         $('#score1').text(data.split("\n")[0]);
         $('#score2').text(data.split("\n")[1]);
