@@ -60,7 +60,7 @@ app.get('/get-total-maps', (req, res) => {
   console.log("Retrieving total number of maps")
 })
 
-app.get('/online', (req, res) => {
+//app.get('/online', (req, res) => {
 
 
 app.listen(3000, () => console.log("Listening on port 3000"))
