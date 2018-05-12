@@ -38,7 +38,7 @@ boolean keyAlreadyPressed;
 public void setup() {
   size(1280, 720);
   
-  file = new SoundFile(this, "C:/Users/elihs/OneDrive/Github/Ardsley-Hacks-2018/Game_Code/assets/");
+  file = new SoundFile(this, "C:/Users/elihs/OneDrive/Github/Ardsley-Hacks-2018/Game_Code/assets/bht.mp3");
   file.play();
 
   p1.init();
@@ -57,7 +57,9 @@ public void draw() {
 
   if (gameMode == 0) {
     mainMenu();
-  } else if (gameMode == 10) {
+  } else if (gameMode == 50) {
+    background(255);
+    text("Hold on while another player joins the game...", width/2, height/2);
   } else if (gameMode == 20) {
     background(00, 165, 80);
     strokeWeight(0);
@@ -480,17 +482,17 @@ void mainMenu() {
   text("+", width/2 + 250, 267);
   //plus button
 
-  //fill(50, 159, 91);
-  //if (mouseX > (width/2)-(350/2) && mouseX < (width/2)+(350/2) && mouseY > 350-(75/2) && mouseY < 350+(75/2)) {
-  //  fill(100, 200, 135);
-  //  if (mousePressed) {
-  //    gameMode = 30;
-  //    miniGame.startGame(30);
-  //  }
-  //}
-  //rect(width/2, 350, 350, 75, 10);
-  //fill(255, 255, 255);
-  //text("Mini Games", width/2, 367);
+  fill(50, 159, 91);
+  if (mouseX > (width/2)-(350/2) && mouseX < (width/2)+(350/2) && mouseY > 350-(75/2) && mouseY < 350+(75/2)) {
+    fill(100, 200, 135);
+    if (mousePressed) {
+      gameMode = 50;
+      //miniGame.startGame(30);
+    }
+  }
+  rect(width/2, 350, 350, 75, 10);
+  fill(255, 255, 255);
+  text("Play Online", width/2, 367);
 
   mapBox();
 }
