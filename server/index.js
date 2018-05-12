@@ -40,13 +40,13 @@ app.get('/get-top-score', (req, res) => {
 })
 
 app.get('/post-map', (req, res) => {
-  var map_id = req.body.map_id
-  exec("echo '" + req.body + "' >> data/" + map_id + ".AHMAP")
+  var map_id = req.query.map_id
+  exec("echo '" + req.query + "' >> data/" + map_id + ".AHMAP")
   console.log("Uploaded map " + map_id)
 })
 
 app.get('/get-map', (req, res) => {
-  var map_id = req.body.map_id
+  var map_id = req.query.map_id
   var str = ""
   exec("cat data/" + map_id + ".AHMAP",
     (err, stdout, stderr) => { str = stdout } )
