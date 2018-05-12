@@ -90,20 +90,34 @@ class mapMaker {
   }
 
   public void saveMap(File selection) {
+    int theMapId = floor(random(10000, 99999));
+    String pointsToSend = "";
     println("saving");
     if (selection == null) {
     } else {
       PrintWriter saver = createWriter(selection.getAbsolutePath() + ".AHMAP"); 
       saver.println("{");
-      saver.println("\"map_id\": \"" + random(10000, 99999) + "\",");
+      saver.println("\"map_id\": \"" + theMapId + "\",");
       saver.print("\"points\": \": [");
+      pointsToSend +="'[";
       for (int i=0; i<points.size(); i++) {
         saver.print("\"" + points.get(i).x + " " + points.get(i).y + "\"");
+        pointsToSend +="\"" + points.get(i).x + " " + points.get(i).y + "\"";
       }
+      pointsToSend +="]'";
       saver.println("]");
       saver.println("}");
       saver.flush();
       saver.close();
+
+      String url = "http://home.bensherman.io:42069/post-map/?map_id=" + theMapId + "?" + pointsToSend;
+      println(url);
+      
+
+      GetRequest get = new GetRequest(url);
+
+      get.send();
+      println("Reponse Content: " + get.getContent());
     }
     mousePressed=false;
     loop();

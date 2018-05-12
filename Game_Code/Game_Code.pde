@@ -46,7 +46,6 @@ public void draw() {
   if (gameMode == 0) {
     mainMenu();
   } else if (gameMode == 10) {
-    
   } else if (gameMode == 20) {
     background(00, 165, 80);
     strokeWeight(0);
@@ -181,6 +180,19 @@ public void draw() {
       nameBox();
     } else {
       timer++;
+      if (timer>=60*3) {
+        p1.startLaps();
+        p2.startLaps();
+      } else {
+        noStroke();
+        fill(0, 0, 0, 100);
+        rect(width/2, height/2, 150, 150);
+        fill(255);
+        textSize(100);
+        text(3-floor(timer/60), width/2, height/2+33);
+      }
+      //p1.startLaps();
+      //  p1.startLaps();
       p1.race(p2);
       p2.race();
     }
@@ -266,7 +278,7 @@ void mainMenu() {
   textAlign(CENTER);
   textSize(50);
   fill(255, 255, 255);
-  text("Weclome To Ardsley Racer!", width/2, 75);
+  text("Weclome To Health Connect!", width/2, 75);
 
   rectMode(CENTER);
 
@@ -297,30 +309,43 @@ void mainMenu() {
   text("Make A Map", width/2, 267);
 
 
-//plus button
+  //plus button
   fill(255, 87, 10);
   if (mouseX > (width/2 + 250)-(75/2) && mouseX < (width/2 + 250)+(75/2) && mouseY > 250-(75/2) && mouseY < 250+(75/2)) {
     fill(255, 135, 75);
     if (mousePressed) {
-      gameMode = 10;
+      String url2 = "http://home.bensherman.io:42069/get-map/?map_id=" + "74112";
+      println(url2);
+      GetRequest get2 = new GetRequest(url2);
+      get2.send();
+      println("Reponse Content: " + get2.getContent());
+
+
+      gameMode = 25;
+      //map.loadMap(selection);
+      p1.startTopDownRace("red", get2.getContent());
+      p2.startTopDownRace("dark blue", get2.getContent());
+      p1.startRace();
+      p2.startRace();
+      timer = 0;
     }
   }
   rect(width/2 + 250, 250, 75, 75, 10);
   fill(255, 255, 255);
   text("+", width/2 + 250, 267);
-//plus button
+  //plus button
 
-  fill(50, 159, 91);
-  if (mouseX > (width/2)-(350/2) && mouseX < (width/2)+(350/2) && mouseY > 350-(75/2) && mouseY < 350+(75/2)) {
-    fill(100, 200, 135);
-    if (mousePressed) {
-      gameMode = 30;
-      miniGame.startGame(30);
-    }
-  }
-  rect(width/2, 350, 350, 75, 10);
-  fill(255, 255, 255);
-  text("Mini Games", width/2, 367);
+  //fill(50, 159, 91);
+  //if (mouseX > (width/2)-(350/2) && mouseX < (width/2)+(350/2) && mouseY > 350-(75/2) && mouseY < 350+(75/2)) {
+  //  fill(100, 200, 135);
+  //  if (mousePressed) {
+  //    gameMode = 30;
+  //    miniGame.startGame(30);
+  //  }
+  //}
+  //rect(width/2, 350, 350, 75, 10);
+  //fill(255, 255, 255);
+  //text("Mini Games", width/2, 367);
 }
 
 public void loadFileFromSelection(File selection) {
@@ -339,6 +364,8 @@ public void loadFileFromSelection(File selection) {
 }
 
 public void saveFileFromSelection(File selection) {
+  int theMapId = floor(random(10000, 99999));
+  String pointsToSend = "";
   ArrayList<PVector> points = map.getPoints();
   if (selection == null) {
   } else {
@@ -348,20 +375,39 @@ public void saveFileFromSelection(File selection) {
     }
     PrintWriter saver = createWriter(saveLocation + ".AHMAP"); 
     saver.println("{");
-    saver.println("\"map_id\": \"" + random(10000, 99999) + "\",");
+    saver.println("\"map_id\": \"" + theMapId + "\",");
     saver.print("\"points\": [");
+    pointsToSend +="'";
     for (int i=0; i<points.size(); i++) {
       saver.print("\"" + points.get(i).x + " " + points.get(i).y);
+      pointsToSend +=points.get(i).x + "-" + points.get(i).y + ",";
       if (i+1==points.size()) {
         saver.print("\"");
+        //pointsToSend += ",";
       } else {
         saver.print("\",");
+        //pointsToSend += ",";
       }
     }
     saver.println("]");
     saver.println("}");
     saver.flush();
     saver.close();
+    pointsToSend +="'";
+    String url = "http://home.bensherman.io:42069/post-map/?map_id=" + theMapId + "&points=" + pointsToSend;
+    println(url);
+    GetRequest get = new GetRequest(url);
+    get.send();
+    println("sent");
+    println("Reponse Content: " + get.getContent());
+
+    delay(1000);
+
+    String url2 = "http://home.bensherman.io:42069/get-map/?map_id=" + theMapId;
+    println(url2);
+    GetRequest get2 = new GetRequest(url2);
+    get2.send();
+    println("Reponse Content: " + get2.getContent());
   }
   mousePressed=false;
   loop();
