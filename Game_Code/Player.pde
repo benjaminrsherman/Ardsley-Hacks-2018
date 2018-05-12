@@ -131,7 +131,7 @@ class Player {
       }
        //println("steps taken: " + id + " "+ pStepsTakenf);
     }
-    println("steps taken: " + id + " "+ pStepsTakenf);
+    //println("steps taken: " + id + " "+ pStepsTakenf);
   } 
 
   public float getX() { 
@@ -187,5 +187,10 @@ class Player {
 
   public car getCar() {
     return myCar;
+  }
+  
+  
+  public int getScore(int time){
+    return myCar.getScore(time);
   }
 }

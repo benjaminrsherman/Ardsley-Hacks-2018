@@ -20,6 +20,8 @@ int timer = 0;
 String name = "";
 boolean keyJustPressed=false;
 
+int mapid=-999;
+
 
 comMiniGame miniGame = new comMiniGame();
 
@@ -156,7 +158,7 @@ public void draw() {
 
 
 
-    if (p1.getLapNumber() >= 3) {
+    if (p1.getLapNumber() <= 3) {
       p1.drawMap(p2);
       fill(255, 215, 0);
       rectMode(CENTER);
@@ -166,7 +168,7 @@ public void draw() {
       textSize(50);
       text("Player 1 Wins!", width/2-76, height/2+17);
       //println("score = " + timer);
-      nameBox();
+      nameBox(p1);
     } else if (p2.getLapNumber() >= 3) {
       p1.drawMap(p2);
       fill(255, 215, 0);
@@ -177,7 +179,7 @@ public void draw() {
       textSize(50);
       text("Player 2 Wins!", width/2-76, height/2+17);
       //println("score = " + timer);
-      nameBox();
+      nameBox(p2);
     } else {
       timer++;
       if (timer>=60*3) {
@@ -206,7 +208,7 @@ public void draw() {
   //p2.showCOM();
 }
 
-void nameBox() {
+void nameBox(Player winningPlayer) {
   if (keyPressed == true) {
     if (keyJustPressed==false) {
       keyJustPressed=true;
@@ -233,7 +235,31 @@ void nameBox() {
   fill(0);
   text(name, width/2-76-(350/2)+5, height/2+17+100);
   textAlign(CENTER);
+
+
+
+  fill(255, 87, 10);
+  if (mouseX > (width/2 + 150)-(75/2) && mouseX < (width/2 + 150)+(75/2) && mouseY > (height/2+100)-(75/2) && mouseY < (height/2+100)+(75/2)) {
+    fill(255, 135, 75);
+    if (mousePressed) {
+      int score = winningPlayer.getScore(timer);
+
+      String url2 = "http://home.bensherman.io:42069/post-socre/?map_id=" + "74112" + "&name=" + name + "&score=" + score;
+      println(url2);
+      GetRequest get2 = new GetRequest(url2);
+      get2.send();
+      println("Reponse Content: " + get2.getContent());
+    }
+  }
+  rect(width/2 + 150, height/2+100, 75, 75, 10);
+  fill(255, 255, 255);
+  text("+", width/2 + 150, height/2+100+13);
 }
+
+void sendScoreToServer() {
+}
+
+
 
 void genSteps() {
   while (true) {
@@ -351,6 +377,17 @@ void mainMenu() {
 public void loadFileFromSelection(File selection) {
   if (selection == null) {
   } else if (selection.getAbsolutePath().indexOf(".AHMAP")>=0) {
+    String[] newPoints = loadStrings(selection.getAbsolutePath());
+    String jsonPointsString = "";
+    for (int i=0; i<newPoints.length; i++) {
+      jsonPointsString+=newPoints[i];
+    }
+    JSONObject jsonPoints = parseJSONObject(jsonPointsString);
+    mapid = int(jsonPoints.getString("map_id"));
+    println("mapid= " + mapid);
+    
+    
+    
     gameMode = 25;
     //map.loadMap(selection);
     p1.startTopDownRace("red", selection);

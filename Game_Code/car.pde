@@ -40,7 +40,7 @@ class car {
     }
     JSONObject jsonPoints = parseJSONObject(jsonPointsString);
     JSONArray values = jsonPoints.getJSONArray("points");
-    println(values.getString(1));
+    //println(values.getString(1));
 
     for (int i=0; i<values.size(); i++) {
       String[] specificPoint = split(values.getString(i), " ");
@@ -65,14 +65,14 @@ class car {
     //println(values.getString(1));
     String[] specificPoint = split(thePoints, ",");
     for (int i=0; i<specificPoint.length; i++) {
-      
+
       String[] newPoint = split(specificPoint[i], "-");
       if (newPoint.length >=2) {
         points.add(new PVector(int (newPoint[0]), int (newPoint[1])));
         println("newPoint");
       }
     }
-    
+
     for (int i=0; i<points.size(); i++) {
       println(points.get(i));
     }
@@ -189,5 +189,23 @@ class car {
     distToMove = 0;
     currentPoint = 0;
     lapNumber = 0;
+  }
+
+
+  public int getScore(int time) {
+    float totalDist = 0;
+    for (int i = 0; i<points.size()-1; i++) {
+      totalDist += abs(dist(points.get(i).x, points.get(i).y, points.get(i+1).x, points.get(i+1).y));
+    }
+    totalDist += abs(dist(points.get(0).x, points.get(0).y, points.get(points.size()-1).x, points.get(points.size()-1).y));
+
+   println(floor((totalDist/(1+time))*1000));
+   int score = floor((totalDist/(1+time))*1000);
+    
+    String text = String.format("%10d", score);
+    println(text);
+
+
+    return int(text);
   }
 }
