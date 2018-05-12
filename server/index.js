@@ -22,6 +22,7 @@ app.get('/post-score', (req, res) => {
   var score = req.query.score
   var str = "touch 'data/" + name + '@' + map_id + '@' + score + "'"
   exec(str)
+  res.send("Score successfully posted!")
   console.log("Uploading " + name + "'s score of " + score + " on " + map_id)
 })
 
@@ -44,6 +45,7 @@ app.get('/post-map', (req, res) => {
   var points = req.query.points
   exec("echo '" + req.query.points + "' >> data/" + map_id + ".AHMAP")
   console.log("Uploaded map " + map_id)
+  res.send("Map successfully uploaded!")
 })
 
 app.get('/get-map', (req, res) => {
@@ -65,7 +67,7 @@ app.get('/get-online', (req, res) => {
   var game_id = req.query.game_id
   var player_id = req.query.player_id
   exec("cat ./data/" + game_id + "@" + player_id + " | tail -1",
-    (err, stdout, stderr) => {res.send(stdout) })
+    (err, stdout, stderr) => { res.send(stdout) })
   console.log("Retrieving game data for game " + game_id + " for player " + player_id)
 })
 
@@ -78,6 +80,8 @@ app.get('/post-online', (req, res) => {
   var distance = req.query.distance
 
   exec("echo '" + lap + "," + point + "," + distance + "' >> " + game_id + "@" + player_id)
+
+  res.send("Info posted!")
 
   console.log("Uploaded game information for game " + game_id + " by player " + player)
 })
@@ -93,6 +97,7 @@ app.get('/post-gen-game', (req, res) => {
     return
   }
   exec("touch '" + game_id + "@1'")
+  res.send("yes")
 })
 
 app.get('/post-join-game', (req, res) => {
@@ -106,6 +111,7 @@ app.get('/post-join-game', (req, res) => {
       return
     }
     exec("touch '" + game_id + "@2'")
+    res.send("yes")
  })
 
 app.listen(3000, () => console.log("Listening on port 3000"))
