@@ -129,8 +129,9 @@ class Player {
         }
         //  println("left tempStepTaken: " + tempStepTaken);
       }
-      // println("steps taken: " + pStepsTakenf);
+       println("steps taken: " + id + " "+ pStepsTakenf);
     }
+    println("steps taken: " + id + " "+ pStepsTakenf);
   } 
 
   public float getX() { 
