@@ -83,13 +83,8 @@ app.get('/get-total-maps', (req, res) => {
 app.get('/get-online', (req, res) => {
   var game_id = req.query.game_id
   var player_id = req.query.player_id
-<<<<<<< HEAD
   exec("cat data/" + game_id + "@" + player_id + " | tail -1",
     (err, stdout, stderr) => {res.send(stdout) })
-=======
-  exec("cat ./data/" + game_id + "@" + player_id + " | tail -1",
-    (err, stdout, stderr) => { res.send(stdout) })
->>>>>>> f4c3eab15fc812c6444ebd81cc43d3883b35c245
   console.log("Retrieving game data for game " + game_id + " for player " + player_id)
 })
 
@@ -118,12 +113,8 @@ app.get('/post-gen-game', (req, res) => {
     res.send("no")
     return
   }
-<<<<<<< HEAD
   exec("touch 'data/" + game_id + "@1'")
-=======
-  exec("touch '" + game_id + "@1'")
   res.send("yes")
->>>>>>> f4c3eab15fc812c6444ebd81cc43d3883b35c245
 })
 
 app.get('/post-join-game', (req, res) => {
@@ -136,12 +127,8 @@ app.get('/post-join-game', (req, res) => {
       res.send("no")
       return
     }
-<<<<<<< HEAD
     exec("touch 'data/" + game_id + "@2'")
-=======
-    exec("touch '" + game_id + "@2'")
     res.send("yes")
->>>>>>> f4c3eab15fc812c6444ebd81cc43d3883b35c245
  })
 
 app.get('/handshake', (req, res) => {
