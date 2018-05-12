@@ -70,18 +70,18 @@ app.get('/get-map', (req, res) => {
   var map_id = req.query.map_id
   var str = ""
   exec("file data/" + map_id + ".AHMAP", (err, stdout, stderr) => {
-    if (stdout.indexOf("No such file or directory") == -1) {
+    if (stdout.indexOf("No such file or directory") == -1 && stdout.indexOf("file [--help]") ) {
       exec("cat data/" + map_id + ".AHMAP",
         (err, stdout, stderr) => { res.send(stdout) } )
     } else {
-      exec("cat data/44737.AHMAP", (err, stdout, stderr) => { res.send(stdout) } )
+      exec("cat data/.default.AHMAP", (err, stdout, stderr) => { res.send(stdout) } )
     }
   })
   console.log("Retrieving map " + map_id)
 })
 
 app.get('/get-total-maps', (req, res) => {
-  exec("ls -1 ./data | grep 'AHMAP' | uniq | wc -l",
+  exec("ls -a -1 ./data | grep 'AHMAP' | uniq | wc -l",
     (err, stdout, stderr) => { res.send(stdout) })
   console.log("Retrieving total number of maps")
 })
