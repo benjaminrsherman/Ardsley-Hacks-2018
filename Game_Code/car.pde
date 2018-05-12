@@ -192,7 +192,7 @@ class car {
   }
 
 
-  public int getScore(int time) {
+  public String getScore(int time) {
     float totalDist = 0;
     for (int i = 0; i<points.size()-1; i++) {
       totalDist += abs(dist(points.get(i).x, points.get(i).y, points.get(i+1).x, points.get(i+1).y));
@@ -202,10 +202,10 @@ class car {
    println(floor((totalDist/(1+time))*1000));
    int score = floor((totalDist/(1+time))*1000);
     
-    String text = String.format("%10d", score);
+    String text = String.format("%09d", score);
     println(text);
 
 
-    return int(text);
+    return text;
   }
 }

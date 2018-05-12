@@ -190,7 +190,7 @@ class Player {
   }
   
   
-  public int getScore(int time){
+  public String getScore(int time){
     return myCar.getScore(time);
   }
 }
