@@ -35,25 +35,25 @@ app.get('/get-score', (req, res) => {
 })
 
 app.get('/get-top-score', (req, res) => {
-  exec("ls -1 data/ | awk -F '@' '{print $3}' | sort | sed '1!G;h;$!d' | head -1",
+  exec("ls -1 data/ | grep -i 'AHMAP' | awk -F '@' '{print $3}' | sort | sed '1!G;h;$!d' | head -1",
     (err, stdout, stderr) => { res.send(stdout) });
   console.log("Retrieving top score")
 })
 
 app.get('/get-top-scores-name', (req, res) => {
-  exec("ls -1 data/ | sort -t '@' -k 3 -nr | awk -F '@' '{print $1}' | head -5",
+  exec("ls -1 data/ | grep -i 'AHMAP' | sort -t '@' -k 3 -nr | awk -F '@' '{print $1}' | head -5",
     (err, stdout, stderr) => { res.send(stdout) })
   console.log("Retrieving top score names")
 })
 
 app.get('/get-top-scores-map', (req, res) => {
-  exec("ls -1 data/ | sort -t '@' -k 3 -nr | awk -F '@' '{print $2}' | head -5",
+  exec("ls -1 data/ | grep -i 'AHMAP' | sort -t '@' -k 3 -nr | awk -F '@' '{print $2}' | head -5",
     (err, stdout, stderr) => { res.send(stdout) })
   console.log("Retrieving top score maps")
 })
 
 app.get('/get-top-scores-score', (req, res) => {
-  exec("ls -1 data/ | sort -t '@' -k 3 -nr | awk -F '@' '{print $3}' | head -5",
+  exec("ls -1 data/ | grep -i 'AHMAP' | sort -t '@' -k 3 -nr | awk -F '@' '{print $3}' | head -5",
     (err, stdout, stderr) => { res.send(stdout) })
   console.log("Retrieving top scores")
 })
