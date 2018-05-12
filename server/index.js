@@ -81,4 +81,30 @@ app.get('/post-online', (req, res) => {
   console.log("Uploaded game information for game " + game_id + " by player " + player)
 })
 
+app.get('/post-gen-game', (req, res) => {
+  var game_id = req.query.game_id
+  var file_exists = false
+  exec("file '" + game_id + "@1'",
+    (err, stdout, stderr) => { file_exists = (stdout.indexOf("No such file or directory") === -1) })
+  if (file_exists) {
+    console.log("Tried to create game that already exists!")
+    res.send("no")
+    return
+  }
+  exec("touch '" + game_id + "@1'")
+})
+
+app.get('/post-join-game', (req, res) => {
+  var game_id = req.query.game_id
+  var file_exists = false
+  exec("file '" + game_id + "@2'",
+      (err, stdout, stderr) => { file_exists = (stdout.indexOf("No such file or directory") === -1) })
+    if (file_exists) {
+      console.log("Tried to create game that already exists!")
+      res.send("no")
+      return
+    }
+    exec("touch '" + game_id + "@2'")
+ })
+
 app.listen(3000, () => console.log("Listening on port 3000"))
