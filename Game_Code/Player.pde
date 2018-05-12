@@ -129,7 +129,7 @@ class Player {
         }
         //  println("left tempStepTaken: " + tempStepTaken);
       }
-       println("steps taken: " + id + " "+ pStepsTakenf);
+       //println("steps taken: " + id + " "+ pStepsTakenf);
     }
     println("steps taken: " + id + " "+ pStepsTakenf);
   } 
@@ -145,8 +145,12 @@ class Player {
   }
 
   void startRace() {
-    raceStarted = true;
+    //raceStarted = true;
     myCar.restart();
+  }
+  
+  void startLaps(){
+    raceStarted = true;
   }
 
 
@@ -155,6 +159,12 @@ class Player {
     myCar = new car(carColor);
     myCar.loadMap(selection);
   }
+  
+    void startTopDownRace(String carColor, String thePoints) {
+    myCar = new car(carColor);
+    myCar.loadMap(thePoints);
+  }
+  
   void stopRace() {
     //myCar.stopRace();
   }

@@ -48,6 +48,36 @@ class car {
     }
   }
 
+
+  public void loadMap(String thePoints) {
+    while (points.size() > 0) {
+      points.remove(0);
+    }
+
+
+    //String[] newPoints = loadStrings(selection.getAbsolutePath());
+    //String jsonPointsString = "";
+    //for (int i=0; i<newPoints.length; i++) {
+    //  jsonPointsString+=newPoints[i];
+    //}
+    //JSONObject jsonPoints = parseJSONObject(jsonPointsString);
+    //JSONArray values = jsonPoints.getJSONArray("points");
+    //println(values.getString(1));
+    String[] specificPoint = split(thePoints, ",");
+    for (int i=0; i<specificPoint.length; i++) {
+      
+      String[] newPoint = split(specificPoint[i], "-");
+      if (newPoint.length >=2) {
+        points.add(new PVector(int (newPoint[0]), int (newPoint[1])));
+        println("newPoint");
+      }
+    }
+    
+    for (int i=0; i<points.size(); i++) {
+      println(points.get(i));
+    }
+  }
+
   private void moveCar() {
     PVector curPointPlus1;
     PVector curPoint;
@@ -108,12 +138,8 @@ class car {
     ////image(img, 0, 0);
     ////line()
     //popMatrix();
-    
-    PVector currentPoint = points.get(0);
-    PVector nextPoint = points.get(1);
-    PVector tangent = new PVector(points.get(0).x - points.get(1).x,points.get(0).y points.get(1).y);
-    
-    line(points.get(0).x, points.get(0).y, points.get(0).x + tangent.x, points.get(0).y + tangent.y);
+
+
 
 
     for (int i=1; i<points.size(); i++) {
@@ -130,6 +156,15 @@ class car {
 
     this.showCar();
     secondCar.showCar();
+
+
+    //PVector line1 = new PVector(points.get(2).x - points.get(0).x, points.get(2).y - points.get(0).y);
+    //PVector line2 = new PVector(points.get(points.size()-1).x - points.get(0).x, points.get(points.size()-1).y - points.get(0).y);
+    //line1.setMag(10000);
+
+    //fill(255, 124, 0);
+    //line(300,300,300+line1.x,300+line1.y);
+    //println("test");
   }
 
   public void showCar() {
