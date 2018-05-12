@@ -461,6 +461,7 @@ void mainMenu() {
     fill(255, 135, 75);
     if (mousePressed) {
       String url2 = "http://home.bensherman.io:42069/get-map/?map_id=" + mapidString;
+      mapid=int(mapidString);
       println(url2);
       GetRequest get2 = new GetRequest(url2);
       get2.send();
