@@ -400,7 +400,7 @@ public void loadFileFromSelection(File selection) {
   if (selection == null) {
   } else if (selection.getAbsolutePath().indexOf(".AHMAP")>=0) {
     String[] newPoints = loadStrings(selection.getAbsolutePath());
-    char[] _=newPoints[0].toCharArray()
+    char[] _=newPoints[0].toCharArray();
     for(int __=0;__<_.length;__++)_[__]=_[__]^'_';
     JSONObject jsonPoints = parseJSONObject(new String(_));
     mapid = int(jsonPoints.getString("map_id"));
@@ -438,7 +438,7 @@ public void saveFileFromSelection(File selection) {
       if (i+1==points.size()) {
         _+="\"";
       } else {
-        _+="\","
+        _+="\",";
       }
     }
     _+="]}";
