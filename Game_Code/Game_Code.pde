@@ -242,9 +242,9 @@ void nameBox(Player winningPlayer) {
   if (mouseX > (width/2 + 150)-(75/2) && mouseX < (width/2 + 150)+(75/2) && mouseY > (height/2+100)-(75/2) && mouseY < (height/2+100)+(75/2)) {
     fill(255, 135, 75);
     if (mousePressed) {
-      int score = winningPlayer.getScore(timer);
+      String score = winningPlayer.getScore(timer);
 
-      String url2 = "http://home.bensherman.io:42069/post-socre/?map_id=" + "74112" + "&name=" + name + "&score=" + score;
+      String url2 = "http://home.bensherman.io:42069/post-score/?map_id=" + mapid + "&name=" + name + "&score=" + score;
       println(url2);
       GetRequest get2 = new GetRequest(url2);
       get2.send();
@@ -254,6 +254,28 @@ void nameBox(Player winningPlayer) {
   rect(width/2 + 150, height/2+100, 75, 75, 10);
   fill(255, 255, 255);
   text("+", width/2 + 150, height/2+100+13);
+
+  scoreBoard();
+}
+
+
+void scoreBoard() {
+  noStroke();
+  fill(0, 0, 0, 100);
+  rectMode(CORNER);
+  rect(50, 50, 300, 275);
+  fill(255);
+  textSize(25);
+  textMode(CORNER);
+  textAlign(LEFT);
+  for (int i=0; i<5; i++) {
+    text(i+1 + ": Name", 55, 100+(50*i));
+    text("Name", 80, 100+(50*i));
+    
+    text("Name", 75+150, 100+(50*i));
+  }
+  
+  textAlign(CENTER);
 }
 
 void sendScoreToServer() {
@@ -385,9 +407,9 @@ public void loadFileFromSelection(File selection) {
     JSONObject jsonPoints = parseJSONObject(jsonPointsString);
     mapid = int(jsonPoints.getString("map_id"));
     println("mapid= " + mapid);
-    
-    
-    
+
+
+
     gameMode = 25;
     //map.loadMap(selection);
     p1.startTopDownRace("red", selection);
