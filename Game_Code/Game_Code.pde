@@ -17,7 +17,7 @@ mapMaker map = new mapMaker();
 
 int timer = 0;
 
-String name = "";
+String name = "TYPE-NAME";
 boolean keyJustPressed=false;
 
 int mapid=-999;
@@ -162,7 +162,7 @@ public void draw() {
 
 
 
-    if (p1.getLapNumber() <= 3) {
+    if (p1.getLapNumber() >= 3) {
       p1.drawMap(p2);
       fill(255, 215, 0);
       rectMode(CENTER);
@@ -171,8 +171,8 @@ public void draw() {
       fill(0);
       textSize(50);
       text("Player 1 Wins!", width/2-76, height/2+17);
-      
-      if(needToGetScores == true){
+
+      if (needToGetScores == true) {
         needToGetScores = false;
         getScores();
       }
@@ -188,12 +188,14 @@ public void draw() {
       textSize(50);
       text("Player 2 Wins!", width/2-76, height/2+17);
       //println("score = " + timer);
-      nameBox(p2);
-      
-      if(needToGetScores == true){
+
+
+      if (needToGetScores == true) {
         needToGetScores = false;
         getScores();
       }
+
+      nameBox(p2);
     } else {
       timer++;
       if (timer>=60*3) {
@@ -233,8 +235,13 @@ void nameBox(Player winningPlayer) {
           name=name.substring(0, name.length()-1);
         }
       } else {
-        name+=key;
-        name=name.toUpperCase();
+        if (name == "TYPE-NAME") {
+          name="" + key;
+          name=name.toUpperCase();
+        } else {
+          name+=key;
+          name=name.toUpperCase();
+        }
       }
     }
   } else {
@@ -247,7 +254,7 @@ void nameBox(Player winningPlayer) {
 
   textAlign(LEFT);
   fill(0);
-  text(name, width/2-76-(350/2)+5, height/2+17+100);
+  text(name, width/2-76-(350/2)+10, height/2+17+100);
   textAlign(CENTER);
 
 
@@ -274,24 +281,24 @@ void nameBox(Player winningPlayer) {
 
 
 
-void getScores(){
-  String url2 = "http://home.bensherman.io:42069/get-map/?get-top-scores-name";
+void getScores() {
+  String url2 = "http://home.bensherman.io:42069/get-top-scores-name";
   GetRequest get2 = new GetRequest(url2);
   get2.send();
   println("Reponse Content: " + get2.getContent());
   names = get2.getContent();
-  
-  url2 = "http://home.bensherman.io:42069/get-map/?get-top-scores-name";
-  get2 = new GetRequest(url2);
-  get2.send();
-  println("Reponse Content: " + get2.getContent());
-  scores = get2.getContent();
-  
-  url2 = "http://home.bensherman.io:42069/get-map/?get-top-scores-name";
+
+  url2 = "http://home.bensherman.io:42069/get-top-scores-map";
   get2 = new GetRequest(url2);
   get2.send();
   println("Reponse Content: " + get2.getContent());
   mapids = get2.getContent();
+
+  url2 = "http://home.bensherman.io:42069/get-top-scores-score";
+  get2 = new GetRequest(url2);
+  get2.send();
+  println("Reponse Content: " + get2.getContent());
+  scores = get2.getContent();
 }
 
 
@@ -299,20 +306,23 @@ void scoreBoard() {
   noStroke();
   fill(0, 0, 0, 100);
   rectMode(CORNER);
-  rect(50, 50, 300, 275);
+  rect(50, 40, 325, 285);
   fill(255);
   textSize(25);
   textMode(CORNER);
   textAlign(LEFT);
 
-  
-  
-  
-  for (int i=0; i<5; i++) {
-    text(i+1 + ": Name", 55, 100+(50*i));
+  String[] tempNames = splitTokens(names);
+  String[] tempScores = splitTokens(scores);
+  String[] tempIds = splitTokens(mapids);
+  //print(tempNames[0]);
+
+  text("Global Top Scores:", 65, 70);
+  for (int i=0; i<tempNames.length; i++) {
+    text(i+1 + ": " + tempNames[i], 55, 100+(50*i));
     //text("Name", 80, 100+(50*i));
 
-    text("Name", 75+150, 100+(50*i));
+    text(tempScores[i], 75+150, 100+(50*i));
   }
 
   textAlign(CENTER);
@@ -411,6 +421,7 @@ void mainMenu() {
 
       gameMode = 25;
       //map.loadMap(selection);
+      needToGetScores = true;
       p1.startTopDownRace("red", get2.getContent());
       p2.startTopDownRace("dark blue", get2.getContent());
       p1.startRace();
