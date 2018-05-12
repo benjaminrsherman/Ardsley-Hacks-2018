@@ -373,24 +373,22 @@ public void saveFileFromSelection(File selection) {
     if (selection.getAbsolutePath().indexOf(".") > 0) {
       saveLocation = selection.getAbsolutePath().substring(0, selection.getAbsolutePath().indexOf("."));
     }
-    PrintWriter saver = createWriter(saveLocation + ".AHMAP"); 
-    saver.println("{");
-    saver.println("\"map_id\": \"" + theMapId + "\",");
-    saver.print("\"points\": [");
+    String _ = "{\"map_id\":\""+theMapId+"\",\"points\":[";
     pointsToSend +="'";
     for (int i=0; i<points.size(); i++) {
-      saver.print("\"" + points.get(i).x + " " + points.get(i).y);
+      _+="\""+points.get(i).x+" "+points.get(i).y;
       pointsToSend +=points.get(i).x + "-" + points.get(i).y + ",";
       if (i+1==points.size()) {
-        saver.print("\"");
-        //pointsToSend += ",";
+        _+="\"";
       } else {
-        saver.print("\",");
-        //pointsToSend += ",";
+        _+="\","
       }
     }
-    saver.println("]");
-    saver.println("}");
+    _+="]}";
+    char[] __=_.toCharArray();
+    for(int ___=0;___<__.length;___++)__[___]=__[___]^'_';
+    PrintWriter saver = createWriter(saveLocation + ".AHMAP"); 
+    saver.print(new String(__));
     saver.flush();
     saver.close();
     pointsToSend +="'";
