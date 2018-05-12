@@ -7,7 +7,7 @@ class car {
   float x =-99;
   float y =-99;
   float ang = 0;
-  
+
 
   int lapNumber = 0;
 
@@ -101,6 +101,21 @@ class car {
 
 
   public void drawMap(car secondCar) {
+    ////line(points.get(0).x, points.get(0).y, points.get(i-1).x, points.get(i-1).y);
+    //pushMatrix();
+    //translate(x, y);
+    //rotate(ang);
+    ////image(img, 0, 0);
+    ////line()
+    //popMatrix();
+    
+    PVector currentPoint = points.get(0);
+    PVector nextPoint = points.get(1);
+    PVector tangent = new PVector(points.get(0).x - points.get(1).x,points.get(0).y points.get(1).y);
+    
+    line(points.get(0).x, points.get(0).y, points.get(0).x + tangent.x, points.get(0).y + tangent.y);
+
+
     for (int i=1; i<points.size(); i++) {
       strokeWeight(30);
       stroke(0);

@@ -4,11 +4,9 @@ import java.util.Random;
 import http.requests.*;
 
 
-tracer trace = new tracer();
-
 Random r = new Random();
 
-boolean doYouHaveAWiiFitBoard = false; // CHANGE THIS BASED ON YOUR SITUATION
+boolean doYouHaveAWiiFitBoard = true; // CHANGE THIS BASED ON YOUR SITUATION
 
 Player p1 = new Player(0, 'q', this, !doYouHaveAWiiFitBoard);
 Player p2 = new Player(1, 'w', this, !doYouHaveAWiiFitBoard);
@@ -48,7 +46,7 @@ public void draw() {
   if (gameMode == 0) {
     mainMenu();
   } else if (gameMode == 10) {
-    trace.drawGame();
+    
   } else if (gameMode == 20) {
     background(00, 165, 80);
     strokeWeight(0);
@@ -192,6 +190,8 @@ public void draw() {
       gameMode=0;
     }
   }
+  //p1.showCOM();
+  //p2.showCOM();
 }
 
 void nameBox() {
@@ -230,6 +230,7 @@ void genSteps() {
     p1.emulateSteps();
     p2.emulateSteps();
     p1.updateSteps();
+    p2.updateSteps();
 
     try {
       Thread.sleep(5);
