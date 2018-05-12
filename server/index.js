@@ -29,15 +29,33 @@ app.get('/post-score', (req, res) => {
 app.get('/get-score', (req, res) => {
   var map_id = req.query.map_id
   var score = ""
-  exec("ls -1 ./data | grep '@" + map_id + "@' | sort -t '@" + map_id + "@' -k 2 | head -1 | cut -f 3 -d '@'", // unix piping amirite
+  exec("ls -1 data/ | grep '@" + map_id + "@' | sort -t '@" + map_id + "@' -k 2 | head -1 | cut -f 3 -d '@'", // unix piping amirite
     (err, stdout, stderr) => { res.send(stdout) } )
   console.log("Retrieving score for map " + map_id)
 })
 
 app.get('/get-top-score', (req, res) => {
-  exec("ls -1 ./data | awk -F '@' '{print $3}' | sort | sed '1!G;h;$!d' | head -1",
+  exec("ls -1 data/ | awk -F '@' '{print $3}' | sort | sed '1!G;h;$!d' | head -1",
     (err, stdout, stderr) => { res.send(stdout) });
   console.log("Retrieving top score")
+})
+
+app.get('/get-top-scores-name', (req, res) => {
+  exec("ls -1 data/ | sort -t '@' -k 3 -nr | awk -F '@' '{print $1}' | head -5",
+    (err, stdout, stderr) => { res.send(stdout) })
+  console.log("Retrieving top score names")
+})
+
+app.get('/get-top-scores-map', (req, res) => {
+  exec("ls -1 data/ | sort -t '@' -k 3 -nr | awk -F '@' '{print $2}' | head -5",
+    (err, stdout, stderr) => { res.send(stdout) })
+  console.log("Retrieving top score maps")
+})
+
+app.get('/get-top-scores-score', (req, res) => {
+  exec("ls -1 data/ | sort -t '@' -k 3 -nr | awk -F '@' '{print $3}' | head -5",
+    (err, stdout, stderr) => { res.send(stdout) })
+  console.log("Retrieving top scores")
 })
 
 app.get('/post-map', (req, res) => {
@@ -65,8 +83,8 @@ app.get('/get-total-maps', (req, res) => {
 app.get('/get-online', (req, res) => {
   var game_id = req.query.game_id
   var player_id = req.query.player_id
-  exec("cat ./data/" + game_id + "@" + player_id + " | tail -1",
-    (err, stdout, stderr) => { res.send(stdout) })
+  exec("cat data/" + game_id + "@" + player_id + " | tail -1",
+    (err, stdout, stderr) => {res.send(stdout) })
   console.log("Retrieving game data for game " + game_id + " for player " + player_id)
 })
 
@@ -78,7 +96,7 @@ app.get('/post-online', (req, res) => {
   var point = req.query.point
   var distance = req.query.distance
 
-  exec("echo '" + lap + "," + point + "," + distance + "' >> " + game_id + "@" + player_id)
+  exec("echo '" + lap + "," + point + "," + distance + "' >> 'data/" + game_id + "@" + player_id + "'")
 
   res.send("Info posted!")
 
@@ -88,14 +106,14 @@ app.get('/post-online', (req, res) => {
 app.get('/post-gen-game', (req, res) => {
   var game_id = req.query.game_id
   var file_exists = false
-  exec("file '" + game_id + "@1'",
+  exec("file 'data/" + game_id + "@1'",
     (err, stdout, stderr) => { file_exists = (stdout.indexOf("No such file or directory") === -1) })
   if (file_exists) {
     console.log("Tried to create game that already exists!")
     res.send("no")
     return
   }
-  exec("touch '" + game_id + "@1'")
+  exec("touch 'data/" + game_id + "@1'")
   res.send("yes")
 })
 
@@ -109,8 +127,17 @@ app.get('/post-join-game', (req, res) => {
       res.send("no")
       return
     }
-    exec("touch '" + game_id + "@2'")
+    exec("touch 'data/" + game_id + "@2'")
     res.send("yes")
  })
+
+app.get('/handshake', (req, res) => {
+  var game_id = req.query.game_id
+  var player_id = req.query.player_id
+  var c_time = req.query.time
+  var s_time = Math.floor(new Date() / 1000) + 10000
+  var diff = s_time - c_time
+  exec("echo " + diff + " >> 'data/" + game_id + "@" + player_id + "'")
+})
 
 app.listen(3000, () => console.log("Listening on port 3000"))
