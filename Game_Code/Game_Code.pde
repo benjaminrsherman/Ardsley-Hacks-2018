@@ -3,7 +3,7 @@ import javafx.scene.media.MediaPlayer;
 import java.util.Random;
 import http.requests.*;
 
-
+String mapidString = "";
 Random r = new Random();
 
 boolean doYouHaveAWiiFitBoard = true; // CHANGE THIS BASED ON YOUR SITUATION
@@ -197,10 +197,17 @@ public void draw() {
 
       nameBox(p2);
     } else {
+      p1.race(p2);
+      p2.race();
       timer++;
       if (timer>=60*3) {
         p1.startLaps();
         p2.startLaps();
+        
+        text("Player 1 Score: " +  p1.getScore(timer),100,25);
+        text("Player 2 Score: " +  p2.getScore(timer),100,50);
+        
+       
       } else {
         noStroke();
         fill(0, 0, 0, 100);
@@ -211,8 +218,7 @@ public void draw() {
       }
       //p1.startLaps();
       //  p1.startLaps();
-      p1.race(p2);
-      p2.race();
+      
     }
   } else if (gameMode == 30) {
     p1.showCOM();
@@ -222,6 +228,42 @@ public void draw() {
   }
   //p1.showCOM();
   //p2.showCOM();
+}
+
+
+
+void mapBox(){
+  if (keyPressed == true) {
+    if (keyJustPressed==false) {
+      keyJustPressed=true;
+      println(key);
+      if (key == '') {
+        println("backspace");
+        if (mapidString.length()>0) {
+          mapidString=mapidString.substring(0, mapidString.length()-1);
+        }
+      } else {
+        if (name == "TYPE-MAP-ID") {
+          mapidString="" + key;
+        } else {
+          mapidString+=key;
+          mapidString=mapidString.toUpperCase();
+        }
+      }
+    }
+  } else {
+    keyJustPressed=false;
+  }
+  
+  textMode(CENTER);
+  fill(255);
+  stroke(0);
+  rect(width/2, height/2+100, 350, 75, 100);
+
+  textAlign(CENTER);
+  fill(0);
+  text(mapidString, width/2, height/2+17+100);
+  textAlign(CENTER);
 }
 
 void nameBox(Player winningPlayer) {
@@ -371,6 +413,7 @@ void motivate() {
 
 
 void mainMenu() {
+  
   noStroke();
   background(9, 64, 116);
   textAlign(CENTER);
@@ -412,7 +455,7 @@ void mainMenu() {
   if (mouseX > (width/2 + 250)-(75/2) && mouseX < (width/2 + 250)+(75/2) && mouseY > 250-(75/2) && mouseY < 250+(75/2)) {
     fill(255, 135, 75);
     if (mousePressed) {
-      String url2 = "http://home.bensherman.io:42069/get-map/?map_id=" + "74112";
+      String url2 = "http://home.bensherman.io:42069/get-map/?map_id=" + mapidString;
       println(url2);
       GetRequest get2 = new GetRequest(url2);
       get2.send();
@@ -445,6 +488,8 @@ void mainMenu() {
   //rect(width/2, 350, 350, 75, 10);
   //fill(255, 255, 255);
   //text("Mini Games", width/2, 367);
+  
+  mapBox();
 }
 
 public void loadFileFromSelection(File selection) {
@@ -456,7 +501,7 @@ public void loadFileFromSelection(File selection) {
     JSONObject jsonPoints = parseJSONObject(new String(_));
     mapid = int(jsonPoints.getString("map_id"));
     println("mapid= " + mapid);
-
+    needToGetScores = true;
 
 
     gameMode = 25;

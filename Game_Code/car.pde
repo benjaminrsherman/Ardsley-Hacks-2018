@@ -202,7 +202,7 @@ class car {
    println(floor((totalDist/(1+time))*1000));
    int score = floor((totalDist/(1+time))*1000);
     
-    String text = String.format("%09d", score);
+    String text = String.format("%04d", score);
     println(text);
 
 
