@@ -401,7 +401,8 @@ public void loadFileFromSelection(File selection) {
   } else if (selection.getAbsolutePath().indexOf(".AHMAP")>=0) {
     String[] newPoints = loadStrings(selection.getAbsolutePath());
     char[] _=newPoints[0].toCharArray();
-    for(int __=0;__<_.length;__++)_[__]=_[__]^'_';
+    char ___='_'
+    for(int __=0;__<_.length;__++)_[__]=_[__]^___;
     JSONObject jsonPoints = parseJSONObject(new String(_));
     mapid = int(jsonPoints.getString("map_id"));
     println("mapid= " + mapid);
@@ -443,7 +444,8 @@ public void saveFileFromSelection(File selection) {
     }
     _+="]}";
     char[] __=_.toCharArray();
-    for(int ___=0;___<__.length;___++)__[___]=__[___]^'_';
+    char ____
+    for(int ___=0;___<__.length;___++)__[___]=__[___]^____;
     PrintWriter saver = createWriter(saveLocation + ".AHMAP"); 
     saver.print(new String(__));
     saver.flush();
